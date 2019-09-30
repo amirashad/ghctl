@@ -1,0 +1,53 @@
+version: 2.1
+
+executors:
+  golang:
+    docker: 
+      - image: circleci/golang
+
+commands:
+  build:
+    steps:
+      - run:
+          name: Build
+          command: go build
+      - run:
+          name: Unit Test
+          command: go test
+
+jobs:
+  validate:
+    executor: golang
+    steps:
+      - checkout
+      - build
+  deploy:
+    executor: golang
+    steps:
+      - checkout
+      - run: 
+          name: Build for multiple architectures
+          command: |
+            GOOS=darwin  GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_darwin_amd64
+            GOOS=linux   GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64
+            GOOS=windows GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_windows_amd64.exe
+      - run: 
+          name: List artifacts
+          command: ls -lah artifacts/
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            go get github.com/tcnksm/ghr
+            VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
+
+workflows:
+  gha_workflow:
+    jobs:
+      - validate
+      - deploy:
+          requires:
+            - validate
+          filters:
+            branches:
+              only: master
