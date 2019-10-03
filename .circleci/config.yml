@@ -14,6 +14,9 @@ commands:
       - run:
           name: Unit Test
           command: go test
+      - run:
+          name: Get version
+          command: ./ghctl --version
 
 jobs:
   validate:
