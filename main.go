@@ -9,7 +9,7 @@ import (
 var orgFlag = flag.String("org", "", "Organisation name")
 var versionFlag = flag.Bool("version", false, "App version")
 
-const appVersion = "v0.0.2"
+const appVersion = "v0.0.3"
 
 var token string
 var org string
@@ -35,11 +35,12 @@ func main() {
 	if args[0] == "get" && args[1] == "repos" {
 		outputFormat := getflag("-o", "normal", true)
 		getRepos(org, outputFormat)
-	}
-
-	if args[0] == "get" && args[1] == "members" {
+	} else if args[0] == "get" && args[1] == "members" {
 		outputFormat := getflag("-o", "normal", true)
 		getMembers(org, outputFormat)
+	} else if args[0] == "get" && args[1] == "teams" {
+		outputFormat := getflag("-o", "normal", true)
+		getTeams(org, outputFormat)
 	}
 }
 

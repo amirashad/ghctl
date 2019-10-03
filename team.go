@@ -11,41 +11,41 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func getMembers(org string, format string) {
+func getTeams(org string, format string) {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
-	opt := &github.ListMembersOptions{ListOptions: github.ListOptions{PerPage: 100}}
-	var reposAll []*github.User
+	opt := &github.ListOptions{PerPage: 100}
+	var objsAll []*github.Team
 	for {
-		repos, resp, err := client.Organizations.ListMembers(ctx, org, opt)
+		objs, resp, err := client.Teams.ListTeams(ctx, org, opt)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		reposAll = append(reposAll, repos...)
+		objsAll = append(objsAll, objs...)
 		if resp.NextPage == 0 {
 			break
 		}
 		opt.Page = resp.NextPage
 	}
 
-	sort.Slice(reposAll, func(i, j int) bool {
-		return *reposAll[i].Login < *reposAll[j].Login
+	sort.Slice(objsAll, func(i, j int) bool {
+		return *objsAll[i].Name < *objsAll[j].Name
 	})
 
 	if format == "normal" {
-		for _, repo := range reposAll {
-			fmt.Println(*repo.Login)
+		for _, repo := range objsAll {
+			fmt.Println(*repo.Name)
 		}
 	} else if format == "wide" {
-		for _, repo := range reposAll {
+		for _, repo := range objsAll {
 			fmt.Println(repo.String())
 		}
 	} else if format == "json" {
-		bytes, _ := json.Marshal(reposAll)
+		bytes, _ := json.Marshal(objsAll)
 		fmt.Println(string(bytes))
 	}
 }

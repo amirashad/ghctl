@@ -11,16 +11,16 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func getRepos(org string, format string) {
+func getMembers(org string, format string) {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
-	opt := &github.RepositoryListByOrgOptions{ /*Type: "private", */ ListOptions: github.ListOptions{PerPage: 100}}
-	var objsAll []*github.Repository
+	opt := &github.ListMembersOptions{ListOptions: github.ListOptions{PerPage: 100}}
+	var objsAll []*github.User
 	for {
-		objs, resp, err := client.Repositories.ListByOrg(ctx, org, opt)
+		objs, resp, err := client.Organizations.ListMembers(ctx, org, opt)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
@@ -33,12 +33,12 @@ func getRepos(org string, format string) {
 	}
 
 	sort.Slice(objsAll, func(i, j int) bool {
-		return *objsAll[i].Name < *objsAll[j].Name
+		return *objsAll[i].Login < *objsAll[j].Login
 	})
 
 	if format == "normal" {
 		for _, repo := range objsAll {
-			fmt.Println(*repo.Name)
+			fmt.Println(*repo.Login)
 		}
 	} else if format == "wide" {
 		for _, repo := range objsAll {
