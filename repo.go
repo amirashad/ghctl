@@ -49,3 +49,28 @@ func getRepos(org string, format string) {
 		fmt.Println(string(bytes))
 	}
 }
+
+func createRepo(org string, repoName string, format string) {
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
+	tc := oauth2.NewClient(ctx, ts)
+	client := github.NewClient(tc)
+
+	repo := github.Repository{
+		Name: github.String(repoName),
+	}
+	objs, _, err := client.Repositories.Create(ctx, org, &repo)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	if format == "normal" {
+		fmt.Println(*objs.Name)
+	} else if format == "wide" {
+		fmt.Println(objs.String())
+	} else if format == "json" {
+		bytes, _ := json.Marshal(objs)
+		fmt.Println(string(bytes))
+	}
+}
