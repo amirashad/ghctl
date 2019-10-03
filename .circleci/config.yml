@@ -38,14 +38,14 @@ jobs:
           name: List artifacts
           command: ls -lah artifacts/
       - run:
-          name: "Publish Release on GitHub"
+          name: Publish Release on GitHub
           command: |
             go get github.com/tcnksm/ghr
             VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
 
 workflows:
-  gha_workflow:
+  ghctl_workflow:
     jobs:
       - validate
       - deploy:
