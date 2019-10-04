@@ -63,9 +63,11 @@ func flagsToRepo() github.Repository {
 
 		AutoInit:          github.Bool(getboolflag("-a", false, false)),
 		GitignoreTemplate: github.String(getflag("-g", "", false)),
-		AllowMergeCommit:  github.Bool(getboolflag("-mergecommit", true, false)),
-		AllowSquashMerge:  github.Bool(getboolflag("-squash", true, false)),
-		AllowRebaseMerge:  github.Bool(getboolflag("-rebase", true, false)),
+		LicenseTemplate:   github.String(getflag("-l", "", false)),
+
+		AllowMergeCommit: github.Bool(getboolflag("-mergecommit", true, false)),
+		AllowSquashMerge: github.Bool(getboolflag("-squash", true, false)),
+		AllowRebaseMerge: github.Bool(getboolflag("-rebase", true, false)),
 	}
 }
 
