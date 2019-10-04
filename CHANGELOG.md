@@ -1,5 +1,12 @@
 # Change log
 
+## v0.0.5 (2019-10-05)
+
+ - Support `create repo` command with flags `-n name -d description -h homepage`
+ - Support `create repo` command with flags `-private true|false -issues true|false -projects true|false -wikis true|false`
+ - Support `create repo` command with flags `-a true|false -g gitignoretemplate -l license`
+ - Support `create repo` command with flags `-mergecommit true|false -squash true|false -rebase true|false`
+
 ## v0.0.4 (2019-10-04)
 
  - Add `create repo` command

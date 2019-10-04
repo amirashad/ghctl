@@ -50,15 +50,31 @@ func getRepos(org string, format string) {
 	}
 }
 
-func createRepo(org string, repoName string, format string) {
+func flagsToRepo() github.Repository {
+	return github.Repository{
+		Name:        github.String(getflag("-n", "", true)),
+		Description: github.String(getflag("-d", "", false)),
+		Homepage:    github.String(getflag("-h", "", false)),
+
+		Private:     github.Bool(getboolflag("-private", true, false)),
+		HasIssues:   github.Bool(getboolflag("-issues", true, false)),
+		HasProjects: github.Bool(getboolflag("-projects", true, false)),
+		HasWiki:     github.Bool(getboolflag("-wikis", true, false)),
+
+		AutoInit:          github.Bool(getboolflag("-a", false, false)),
+		GitignoreTemplate: github.String(getflag("-g", "", false)),
+		AllowMergeCommit:  github.Bool(getboolflag("-mergecommit", true, false)),
+		AllowSquashMerge:  github.Bool(getboolflag("-squash", true, false)),
+		AllowRebaseMerge:  github.Bool(getboolflag("-rebase", true, false)),
+	}
+}
+
+func createRepo(org string, repo github.Repository, format string) {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
-	repo := github.Repository{
-		Name: github.String(repoName),
-	}
 	objs, _, err := client.Repositories.Create(ctx, org, &repo)
 	if err != nil {
 		fmt.Println(err)
