@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -13,8 +14,10 @@ func getflag(flg string, def string, fail bool) string {
 	}
 
 	args := flag.Args()
+	found := false
 	for i, f := range args {
 		if f == flg {
+			found = true
 			if len(args) <= i+1 || strings.HasPrefix(args[i+1], "-") {
 				return failif(fail, def, "please provide output type from: [normal, wide, json]")
 			}
@@ -22,11 +25,22 @@ func getflag(flg string, def string, fail bool) string {
 			return args[i+1]
 		}
 	}
-
+	if !found {
+		return failif(fail, def, "please provide name of repo with", flg, "flag")
+	}
 	return def
 }
 
-func failif(fail bool, def string, err string) string {
+func getboolflag(flg string, def bool, fail bool) bool {
+	flag := getflag(flg, "", fail)
+	v, err := strconv.ParseBool(flag)
+	if err == nil {
+		return v
+	}
+	return def
+}
+
+func failif(fail bool, def string, err ...string) string {
 	if fail {
 		fmt.Println(err)
 		os.Exit(2)
