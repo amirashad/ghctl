@@ -9,7 +9,7 @@ import (
 var orgFlag = flag.String("org", "", "Organisation name")
 var versionFlag = flag.Bool("version", false, "App version")
 
-const appVersion = "v0.0.5"
+const appVersion = "v0.0.6"
 
 var token string
 var org string
@@ -32,21 +32,22 @@ func main() {
 	token = githubToken()
 	org = githubOrg()
 
+	outputFormat := getflag("-o", "normal", false)
 	if args[0] == "get" && args[1] == "repos" {
-		outputFormat := getflag("-o", "normal", true)
 		getRepos(org, outputFormat)
 	} else if args[0] == "get" && args[1] == "members" {
-		outputFormat := getflag("-o", "normal", true)
 		getMembers(org, outputFormat)
 	} else if args[0] == "get" && args[1] == "teams" {
-		outputFormat := getflag("-o", "normal", true)
 		getTeams(org, outputFormat)
 	}
 
 	if args[0] == "create" && args[1] == "repo" {
-		outputFormat := getflag("-o", "normal", true)
 		repo := flagsToRepo()
 		createRepo(org, repo, outputFormat)
+	} else if args[0] == "create" && args[1] == "branch" {
+		repo := getflag("-repo", "", true)
+		newBranch := getflag("-b", "", true)
+		createBranch(org, repo, newBranch, outputFormat)
 	}
 }
 

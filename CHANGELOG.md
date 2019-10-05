@@ -1,5 +1,9 @@
 # Change log
 
+## v0.0.6 (2019-10-05)
+
+ - Add `create branch` command with flags `-repo reponame -b branchname`
+
 ## v0.0.5 (2019-10-05)
 
  - Support `create repo` command with flags `-n name -d description -h homepage`
@@ -9,7 +13,6 @@
 
 ## v0.0.4 (2019-10-04)
 
- - Add `create repo` command
  - Add `create repo -n "repo-name" -o [normal, json, wide]` command
 
 ## v0.0.3 (2019-10-04)
