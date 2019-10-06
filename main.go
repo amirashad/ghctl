@@ -46,7 +46,7 @@ func main() {
 		repo := getflag("-repo", "", true)
 		newBranch := getflag("-b", "", true)
 		createBranch(org, repo, newBranch, outputFormat)
-	} else if args[0] == "add" && args[1] == "files" {
+	} else if args[0] == "add" && args[1] == "file" {
 		repo := getflag("-repo", "", true)
 		branch := getflag("-b", "", true)
 		files := getflag("-f", "", true)

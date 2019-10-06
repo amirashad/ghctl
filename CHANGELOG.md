@@ -2,8 +2,7 @@
 
 ## v0.0.7 (2019-10-07)
 
- - Add `add files` command with flags `-repo reponame -b branchname -f files -gitname "Author Name" -gitemail "author.email@email.com" -m "Commit message"`
- - `add files` currently supports only single file
+ - Add `add file` command with flags `-repo reponame -b branchname -f file -gitname "Author Name" -gitemail "author.email@email.com" -m "Commit message"`
 
 ## v0.0.6 (2019-10-05)
 
