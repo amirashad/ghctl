@@ -9,7 +9,7 @@ import (
 var orgFlag = flag.String("org", "", "Organisation name")
 var versionFlag = flag.Bool("version", false, "App version")
 
-const appVersion = "v0.0.6"
+const appVersion = "v0.0.7"
 
 var token string
 var org string
@@ -39,15 +39,23 @@ func main() {
 		getMembers(org, outputFormat)
 	} else if args[0] == "get" && args[1] == "teams" {
 		getTeams(org, outputFormat)
-	}
-
-	if args[0] == "create" && args[1] == "repo" {
+	} else if args[0] == "create" && args[1] == "repo" {
 		repo := flagsToRepo()
 		createRepo(org, repo, outputFormat)
 	} else if args[0] == "create" && args[1] == "branch" {
 		repo := getflag("-repo", "", true)
 		newBranch := getflag("-b", "", true)
 		createBranch(org, repo, newBranch, outputFormat)
+	} else if args[0] == "add" && args[1] == "files" {
+		repo := getflag("-repo", "", true)
+		branch := getflag("-b", "", true)
+		files := getflag("-f", "", true)
+		gitName := getflag("-gitname", "", true)
+		gitEmail := getflag("-gitemail", "", true)
+		commitmessage := getflag("-m", "Change "+files, false)
+		addFiles(org, repo, branch, files, commitmessage, gitName, gitEmail, outputFormat)
+	} else {
+		fmt.Println("Error: not implemented yet") // TODO: show help
 	}
 }
 
