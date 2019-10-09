@@ -1,5 +1,9 @@
 # Change log
 
+## v0.0.8 (2019-10-09)
+
+ - Add `create protection` command with flags `-repo reponame -p protection-pattern -min-approve count -dismiss-stale-pr-approvals true|flase -code-owner true|false`
+
 ## v0.0.7 (2019-10-07)
 
  - Add `add file` command with flags `-repo reponame -b branchname -f file -gitname "Author Name" -gitemail "author.email@email.com" -m "Commit message"`
