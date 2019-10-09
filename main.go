@@ -9,7 +9,7 @@ import (
 var orgFlag = flag.String("org", "", "Organisation name")
 var versionFlag = flag.Bool("version", false, "App version")
 
-const appVersion = "v0.0.7"
+const appVersion = "v0.0.8"
 
 var token string
 var org string
@@ -54,6 +54,13 @@ func main() {
 		gitEmail := getflag("-gitemail", "", true)
 		commitmessage := getflag("-m", "Change "+files, false)
 		addFiles(org, repo, branch, files, commitmessage, gitName, gitEmail, outputFormat)
+	} else if args[0] == "create" && args[1] == "protection" {
+		repo := getflag("-repo", "", true)
+		protectionPattern := getflag("-p", "", true)
+		minApprove := getintflag("-min-approve", 1, false)
+		dismissStalePrApprovals := getboolflag("-dismiss-stale-pr-approvals", false, false)
+		codeOwner := getboolflag("-code-owner", false, false)
+		createProtection(org, repo, protectionPattern, minApprove, dismissStalePrApprovals, codeOwner)
 	} else {
 		fmt.Println("Error: not implemented yet") // TODO: show help
 	}

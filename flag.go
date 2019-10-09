@@ -40,6 +40,15 @@ func getboolflag(flg string, def bool, fail bool) bool {
 	return def
 }
 
+func getintflag(flg string, def int, fail bool) int {
+	flag := getflag(flg, "", fail)
+	v, err := strconv.ParseInt(flag, 10, 0)
+	if err == nil {
+		return int(v)
+	}
+	return def
+}
+
 func failif(fail bool, def string, err ...string) string {
 	if fail {
 		fmt.Println(err)
