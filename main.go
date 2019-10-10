@@ -9,7 +9,7 @@ import (
 var orgFlag = flag.String("org", "", "Organisation name")
 var versionFlag = flag.Bool("version", false, "App version")
 
-const appVersion = "v0.0.8"
+const appVersion = "v0.0.9"
 
 var token string
 var org string
@@ -60,7 +60,13 @@ func main() {
 		minApprove := getintflag("-min-approve", 1, false)
 		dismissStalePrApprovals := getboolflag("-dismiss-stale-pr-approvals", false, false)
 		codeOwner := getboolflag("-code-owner", false, false)
-		createProtection(org, repo, protectionPattern, minApprove, dismissStalePrApprovals, codeOwner)
+
+		requireBranchesUptodate := getboolflag("-require-branches-uptodate", false, false)
+		includeAdmins := getboolflag("-admins", false, false)
+
+		createProtection(org, repo,
+			protectionPattern, minApprove, dismissStalePrApprovals, codeOwner,
+			requireBranchesUptodate, includeAdmins)
 	} else {
 		fmt.Println("Error: not implemented yet") // TODO: show help
 	}
