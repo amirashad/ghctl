@@ -1,8 +1,12 @@
 # Change log
 
+## v0.0.9 (2019-10-10)
+
+ - Update `create protection` command with flags `-require-branches-uptodate true|false -admins true|false`
+
 ## v0.0.8 (2019-10-09)
 
- - Add `create protection` command with flags `-repo reponame -p protection-pattern -min-approve count -dismiss-stale-pr-approvals true|flase -code-owner true|false`
+ - Add `create protection` command with flags `-repo reponame -p protection-pattern -min-approve count -dismiss-stale-pr-approvals true|false -code-owner true|false`
 
 ## v0.0.7 (2019-10-07)
 
