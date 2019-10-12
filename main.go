@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 )
 
 var orgFlag = flag.String("org", "", "Organisation name")
@@ -64,9 +65,16 @@ func main() {
 		requireBranchesUptodate := getboolflag("-require-branches-uptodate", false, false)
 		includeAdmins := getboolflag("-admins", false, false)
 
+		canDismiss := getflag("-can-dismiss", "", false)
+		canDismissTeams := getflag("-can-dismiss-teams", "", false)
+		canPush := getflag("-can-push", "", false)
+		canPushTeams := getflag("-can-push-teams", "", false)
+
 		createProtection(org, repo,
 			protectionPattern, minApprove, dismissStalePrApprovals, codeOwner,
-			requireBranchesUptodate, includeAdmins)
+			requireBranchesUptodate, includeAdmins,
+			strings.Split(canDismiss, ","), strings.Split(canDismissTeams, ","),
+			strings.Split(canPush, ","), strings.Split(canPushTeams, ","))
 	} else {
 		fmt.Println("Error: not implemented yet") // TODO: show help
 	}
