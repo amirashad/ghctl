@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.0 (2019-10-12)
+
+ - Update `create protection` command with flags `-can-push "user1,user2" -can-push-teams "team1,team2" -can-dismiss "user1,user2" -can-dismiss-teams "team1,team2"`
+
 ## v0.0.9 (2019-10-10)
 
  - Update `create protection` command with flags `-require-branches-uptodate true|false -admins true|false`
