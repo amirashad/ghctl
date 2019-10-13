@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.3 (2019-10-14)
+
+ - Add Github release badge
+
 ## v0.1.2 (2019-10-14)
 
  - Add CircleCI status badge
