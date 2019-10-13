@@ -1,5 +1,12 @@
 # Change log
 
+## v0.1.1 (2019-10-12)
+
+ - Use struct based flags
+ - Add Core Infrastructure Initiative (CII) badge
+ - Delete wide from output types
+ - Change command line arguments
+
 ## v0.1.0 (2019-10-12)
 
  - Update `create protection` command with flags `-can-push "user1,user2" -can-push-teams "team1,team2" -can-dismiss "user1,user2" -can-dismiss-teams "team1,team2"`

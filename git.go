@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"gopkg.in/src-d/go-git.v4"
@@ -55,7 +56,7 @@ func createBranch(org string, repo string, branch string, format string) {
 }
 
 // create branch from default branch
-func addFiles(org, repo, branch, files, commitmessage, gitName, gitEmail, format string) {
+func addFiles(org, repo, branch string, files []string, commitmessage, gitName, gitEmail, format string) {
 	auth := &http.BasicAuth{
 		Username: gitUsername, // anything except an empty string
 		Password: githubToken(),
@@ -87,13 +88,13 @@ func addFiles(org, repo, branch, files, commitmessage, gitName, gitEmail, format
 	// worktree of the project using the go standard library.
 	// Info("echo \"hello world!\" > example-git-file")
 	// filename := filepath.Join(dir, files)
-	copyFile(files, filepath.Join(dir, files))
+	copyFile(files[0], filepath.Join(dir, files[0]))
 	// err = ioutil.WriteFile(filename, []byte("hello world!"), 0644)
 	// CheckIfError(err)
 
 	// Adds the new file to the staging area.
 	Info("git add %s", files)
-	_, err = w.Add(files)
+	_, err = w.Add(files[0])
 	CheckIfError(err)
 
 	// We can verify the current status of the worktree using the method Status.
@@ -107,6 +108,9 @@ func addFiles(org, repo, branch, files, commitmessage, gitName, gitEmail, format
 	// just created. We should provide the object.Signature of Author of the
 	// commit.
 	Info("git commit -m \"%s\"", commitmessage)
+	if args.Add.Files.CommitMessage == "" {
+		commitmessage = "Change " + strings.Join(files, " ")
+	}
 	commit, err := w.Commit(commitmessage, &git.CommitOptions{
 		Author: &object.Signature{
 			Name:  gitName,

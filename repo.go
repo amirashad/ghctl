@@ -13,7 +13,7 @@ import (
 
 func getRepos(org string, format string) {
 	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: githubToken()})
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
@@ -40,44 +40,43 @@ func getRepos(org string, format string) {
 		for _, repo := range objsAll {
 			fmt.Println(*repo.Name)
 		}
-	} else if format == "wide" {
-		for _, repo := range objsAll {
-			fmt.Println(repo.String())
-		}
 	} else if format == "json" {
 		bytes, _ := json.Marshal(objsAll)
 		fmt.Println(string(bytes))
 	}
 }
 
-func flagsToRepo() github.Repository {
-	return github.Repository{
-		Name:        github.String(getflag("-n", "", true)),
-		Description: github.String(getflag("-d", "", false)),
-		Homepage:    github.String(getflag("-h", "", false)),
-
-		Private:     github.Bool(getboolflag("-private", true, false)),
-		HasIssues:   github.Bool(getboolflag("-issues", true, false)),
-		HasProjects: github.Bool(getboolflag("-projects", true, false)),
-		HasWiki:     github.Bool(getboolflag("-wikis", true, false)),
-
-		AutoInit:          github.Bool(getboolflag("-a", false, false)),
-		GitignoreTemplate: github.String(getflag("-g", "", false)),
-		LicenseTemplate:   github.String(getflag("-l", "", false)),
-
-		AllowMergeCommit: github.Bool(getboolflag("-mergecommit", true, false)),
-		AllowSquashMerge: github.Bool(getboolflag("-squash", true, false)),
-		AllowRebaseMerge: github.Bool(getboolflag("-rebase", true, false)),
-	}
-}
-
-func createRepo(org string, repo github.Repository, format string) {
+func createRepo(org string,
+	name, descr, homepage *string,
+	private, noIssues, noProjects, noWiki, autoinit *bool,
+	gitIgnoreTemplate, licenseTemplate *string,
+	noMergeCommit, noSquashMerge, noRebaseMerge *bool,
+	format string) {
 	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: githubToken()})
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
-	objs, _, err := client.Repositories.Create(ctx, org, &repo)
+	repo := &github.Repository{
+		Name:        name,
+		Description: descr,
+		Homepage:    homepage,
+
+		Private:     private,
+		HasIssues:   not(noIssues),
+		HasProjects: not(noProjects),
+		HasWiki:     not(noWiki),
+		AutoInit:    autoinit,
+
+		GitignoreTemplate: gitIgnoreTemplate,
+		LicenseTemplate:   licenseTemplate,
+
+		AllowMergeCommit: not(noMergeCommit),
+		AllowSquashMerge: not(noSquashMerge),
+		AllowRebaseMerge: not(noRebaseMerge),
+	}
+
+	objs, _, err := client.Repositories.Create(ctx, org, repo)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -85,10 +84,17 @@ func createRepo(org string, repo github.Repository, format string) {
 
 	if format == "normal" {
 		fmt.Println(*objs.Name)
-	} else if format == "wide" {
-		fmt.Println(objs.String())
 	} else if format == "json" {
 		bytes, _ := json.Marshal(objs)
 		fmt.Println(string(bytes))
 	}
+}
+
+func not(o *bool) *bool {
+	result := true
+	if o == nil {
+		return &result
+	}
+	result = !*o
+	return &result
 }

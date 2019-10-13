@@ -13,7 +13,7 @@ import (
 
 func getTeams(org string, format string) {
 	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: githubToken()})
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
@@ -39,10 +39,6 @@ func getTeams(org string, format string) {
 	if format == "normal" {
 		for _, repo := range objsAll {
 			fmt.Println(*repo.Name)
-		}
-	} else if format == "wide" {
-		for _, repo := range objsAll {
-			fmt.Println(repo.String())
 		}
 	} else if format == "json" {
 		bytes, _ := json.Marshal(objsAll)
