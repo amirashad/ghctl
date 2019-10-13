@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.2 (2019-10-14)
+
+ - Add CircleCI status badge
+
 ## v0.1.1 (2019-10-12)
 
  - Use struct based flags
