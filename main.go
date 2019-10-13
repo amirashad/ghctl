@@ -1,98 +1,55 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-	"os"
-	"strings"
+	"github.com/alexflint/go-arg"
 )
 
-var orgFlag = flag.String("org", "", "Organisation name")
-var versionFlag = flag.Bool("version", false, "App version")
-
-const appVersion = "v0.0.9"
-
-var token string
-var org string
+var args Args
 
 func main() {
-	flag.Parse()
-
-	if *versionFlag == true {
-		fmt.Println(appVersion)
-		return
-	}
-
-	args := flag.Args()
+	args.OutputFormat = "normal"
+	arg.MustParse(&args)
 	// fmt.Println(args)
-	// fmt.Println(*outputFlag)
-	if len(args) < 2 {
-		return
-	}
 
-	token = githubToken()
-	org = githubOrg()
-
-	outputFormat := getflag("-o", "normal", false)
-	if args[0] == "get" && args[1] == "repos" {
-		getRepos(org, outputFormat)
-	} else if args[0] == "get" && args[1] == "members" {
-		getMembers(org, outputFormat)
-	} else if args[0] == "get" && args[1] == "teams" {
-		getTeams(org, outputFormat)
-	} else if args[0] == "create" && args[1] == "repo" {
-		repo := flagsToRepo()
-		createRepo(org, repo, outputFormat)
-	} else if args[0] == "create" && args[1] == "branch" {
-		repo := getflag("-repo", "", true)
-		newBranch := getflag("-b", "", true)
-		createBranch(org, repo, newBranch, outputFormat)
-	} else if args[0] == "add" && args[1] == "file" {
-		repo := getflag("-repo", "", true)
-		branch := getflag("-b", "", true)
-		files := getflag("-f", "", true)
-		gitName := getflag("-gitname", "", true)
-		gitEmail := getflag("-gitemail", "", true)
-		commitmessage := getflag("-m", "Change "+files, false)
-		addFiles(org, repo, branch, files, commitmessage, gitName, gitEmail, outputFormat)
-	} else if args[0] == "create" && args[1] == "protection" {
-		repo := getflag("-repo", "", true)
-		protectionPattern := getflag("-p", "", true)
-		minApprove := getintflag("-min-approve", 1, false)
-		dismissStalePrApprovals := getboolflag("-dismiss-stale-pr-approvals", false, false)
-		codeOwner := getboolflag("-code-owner", false, false)
-
-		requireBranchesUptodate := getboolflag("-require-branches-uptodate", false, false)
-		includeAdmins := getboolflag("-admins", false, false)
-
-		canDismiss := getflag("-can-dismiss", "", false)
-		canDismissTeams := getflag("-can-dismiss-teams", "", false)
-		canPush := getflag("-can-push", "", false)
-		canPushTeams := getflag("-can-push-teams", "", false)
-
-		createProtection(org, repo,
-			protectionPattern, minApprove, dismissStalePrApprovals, codeOwner,
-			requireBranchesUptodate, includeAdmins,
-			strings.Split(canDismiss, ","), strings.Split(canDismissTeams, ","),
-			strings.Split(canPush, ","), strings.Split(canPushTeams, ","))
-	} else {
-		fmt.Println("Error: not implemented yet") // TODO: show help
+	if args.Get != nil && args.Get.Repos != nil {
+		getRepos(args.Org, args.OutputFormat)
+	} else if args.Get != nil && args.Get.Members != nil {
+		getMembers(args.Org, args.OutputFormat)
+	} else if args.Get != nil && args.Get.Teams != nil {
+		getTeams(args.Org, args.OutputFormat)
+	} else if args.Create != nil && args.Create.Repo != nil {
+		createRepo(args.Org,
+			args.Create.Repo.Name, args.Create.Repo.Description, args.Create.Repo.Homepage,
+			args.Create.Repo.Private, args.Create.Repo.NoIssues, args.Create.Repo.NoProjects, args.Create.Repo.NoWiki, args.Create.Repo.AutoInit,
+			args.Create.Repo.GitignoreTemplate, args.Create.Repo.LicenseTemplate,
+			args.Create.Repo.NoMergeCommit, args.Create.Repo.NoSquashMerge, args.Create.Repo.NoRebaseMerge,
+			args.OutputFormat)
+	} else if args.Create != nil && args.Create.Branch != nil {
+		createBranch(args.Org,
+			args.Create.Branch.Repo,
+			args.Create.Branch.Branch,
+			args.OutputFormat)
+	} else if args.Add != nil && args.Add.Files != nil {
+		addFiles(args.Org,
+			args.Add.Files.Repo, args.Add.Files.Branch,
+			args.Add.Files.Files,
+			args.Add.Files.CommitMessage,
+			args.Add.Files.GitName, args.Add.Files.GitEmail,
+			args.OutputFormat)
+	} else if args.Create != nil && args.Create.Protection != nil {
+		createProtection(args.Org,
+			args.Create.Protection.Repo, args.Create.Protection.Branch,
+			args.Create.Protection.MinApprove,
+			args.Create.Protection.DismissStaleReviews,
+			args.Create.Protection.CodeOwner,
+			args.Create.Protection.RequireBranchesUpToDate,
+			args.Create.Protection.IncludeAdmins,
+			args.Create.Protection.CanDismiss, args.Create.Protection.CanDismissTeams,
+			args.Create.Protection.CanPush, args.Create.Protection.CanPushTeams,
+			[]string{})
 	}
 }
 
 func githubToken() string {
-	token := os.Getenv("GITHUB_TOKEN")
-	if token == "" {
-		fmt.Println("Unauthorized: No token present. Please, add GITHUB_TOKEN environment variable")
-		os.Exit(1)
-	}
-	return token
-}
-
-func githubOrg() string {
-	if len(*orgFlag) == 0 {
-		fmt.Println("org must be described!")
-		os.Exit(1)
-	}
-	return *orgFlag
+	return args.Token
 }

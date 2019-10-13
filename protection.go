@@ -10,9 +10,10 @@ import (
 
 func createProtection(org, repoName, protectionPattern string, minApprove int, dismissStalePrApprovals, codeOwner bool,
 	requireBranchesUptodate, includeAdmins bool,
-	canDismiss, canDismissTeams, canPush, canPushTeams []string) {
+	canDismiss, canDismissTeams, canPush, canPushTeams []string,
+	requiredStatusChecks []string) {
 	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: githubToken()})
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 

@@ -1,59 +1,83 @@
 package main
 
-import (
-	"flag"
-	"fmt"
-	"os"
-	"strconv"
-	"strings"
-)
+type Args struct {
+	Token        string `arg:"env:GITHUB_TOKEN,required"`
+	Org          string `arg:"required"`
+	OutputFormat string `arg:"-o" help:"output format: normal, json"`
 
-func getflag(flg string, def string, fail bool) string {
-	if !strings.HasPrefix(flg, "-") {
-		return def
-	}
-
-	args := flag.Args()
-	found := false
-	for i, f := range args {
-		if f == flg {
-			found = true
-			if len(args) <= i+1 || strings.HasPrefix(args[i+1], "-") {
-				return failif(fail, def, "please provide output type from: [normal, wide, json]")
-			}
-
-			return args[i+1]
-		}
-	}
-	if !found {
-		return failif(fail, def, "please provide name of repo with", flg, "flag")
-	}
-	return def
+	Get    *Get    `arg:"subcommand:get"`
+	Create *Create `arg:"subcommand:create"`
+	Add    *Add    `arg:"subcommand:add"`
 }
 
-func getboolflag(flg string, def bool, fail bool) bool {
-	flag := getflag(flg, "", fail)
-	v, err := strconv.ParseBool(flag)
-	if err == nil {
-		return v
-	}
-	return def
+func (Args) Version() string {
+	return "v0.1.1"
 }
 
-func getintflag(flg string, def int, fail bool) int {
-	flag := getflag(flg, "", fail)
-	v, err := strconv.ParseInt(flag, 10, 0)
-	if err == nil {
-		return int(v)
-	}
-	return def
+type Get struct {
+	Repos   *Repos   `arg:"subcommand:repos"`
+	Members *Members `arg:"subcommand:members"`
+	Teams   *Teams   `arg:"subcommand:teams"`
+}
+type Repos struct {
+}
+type Members struct {
+}
+type Teams struct {
 }
 
-func failif(fail bool, def string, err ...string) string {
-	if fail {
-		fmt.Println(err)
-		os.Exit(2)
-	}
+type Create struct {
+	Repo       *Repo       `arg:"subcommand:repo"`
+	Branch     *Branch     `arg:"subcommand:branch"`
+	Protection *Protection `arg:"subcommand:protection"`
+}
+type Repo struct {
+	Name        *string `arg:"-n,required"`
+	Description *string `arg:"-d"`
+	Homepage    *string `arg:"-h"`
 
-	return def
+	Private    *bool
+	NoIssues   *bool
+	NoProjects *bool
+	NoWiki     *bool
+
+	AutoInit          *bool   `arg:"-a"`
+	GitignoreTemplate *string `arg:"-i"`
+	LicenseTemplate   *string `arg:"-l"`
+
+	NoMergeCommit *bool
+	NoSquashMerge *bool
+	NoRebaseMerge *bool
+}
+type Branch struct {
+	Repo   string `arg:"-r,required"`
+	Branch string `arg:"-b,required"`
+}
+type Protection struct {
+	Repo   string `arg:"-r,required"`
+	Branch string `arg:"-b,required"`
+
+	MinApprove              int  `arg:"-p"`
+	DismissStaleReviews     bool `arg:"-d"`
+	CanDismiss              []string
+	CanDismissTeams         []string
+	RequireBranchesUpToDate bool
+
+	CodeOwner     bool `arg:"-c"`
+	IncludeAdmins bool `arg:"-a"`
+
+	CanPush      []string
+	CanPushTeams []string
+}
+
+type Add struct {
+	Files *Files `arg:"subcommand:file"`
+}
+type Files struct {
+	Repo          string   `arg:"-r,required"`
+	Branch        string   `arg:"-b,required"`
+	Files         []string `arg:"-f,required"`
+	GitName       string   `arg:"-n,required"`
+	GitEmail      string   `arg:"-e,required"`
+	CommitMessage string   `arg:"-m"`
 }
