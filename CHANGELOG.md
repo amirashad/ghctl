@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.5 (2019-10-15)
+
+ - Stop creating Github release if version already exists
+
 ## v0.1.4 (2019-10-15)
 
  - Change CircleCI status badge type
