@@ -44,6 +44,10 @@ func createProtection(org, repoName, protectionPattern string, minApprove int, d
 		}
 	}
 
+	if len(requiredStatusChecks) > 0 {
+		preq.RequiredStatusChecks.Contexts = requiredStatusChecks
+	}
+
 	_, _, err := client.Repositories.UpdateBranchProtection(ctx, org, repoName, protectionPattern, preq)
 	if err == nil {
 		fmt.Println(protectionPattern)
