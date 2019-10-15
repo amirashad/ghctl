@@ -2,7 +2,7 @@
 
 ## v0.1.5 (2019-10-15)
 
- - Stop creating Github release if version already exists
+ - Update `create protection` command with flags `-s|--required-status-checks "ci/circleci: build" "SonarCloud Code Analysis"`
 
 ## v0.1.4 (2019-10-15)
 

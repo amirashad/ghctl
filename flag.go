@@ -11,7 +11,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "v0.1.4"
+	return "v0.1.5"
 }
 
 type Get struct {
@@ -68,6 +68,8 @@ type Protection struct {
 
 	CanPush      []string
 	CanPushTeams []string
+
+	RequiredStatusChecks []string `arg:"-s,--required-status-checks"`
 }
 
 type Add struct {
