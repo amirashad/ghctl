@@ -5,6 +5,7 @@
  - Change CircleCI status badge type
  - Add SonarCloud properties to check bugs and keep code clean
  - Add SonarCloud status badge
+ - Create GitHub releases only with version
 
 ## v0.1.3 (2019-10-14)
 

@@ -51,6 +51,6 @@ workflows:
       - deploy:
           requires:
             - validate
-          filters:
-            branches:
-              only: master
+          # filters:
+          #   branches:
+          #     only: master
