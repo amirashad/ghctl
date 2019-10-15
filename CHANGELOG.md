@@ -1,5 +1,11 @@
 # Change log
 
+## v0.1.4 (2019-10-15)
+
+ - Change CircleCI status badge type
+ - Add SonarCloud properties to check bugs and keep code clean
+ - Add SonarCloud status badge
+
 ## v0.1.3 (2019-10-14)
 
  - Add Github release badge
