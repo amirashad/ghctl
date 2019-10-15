@@ -31,9 +31,9 @@ jobs:
       - run: 
           name: Build for multiple architectures
           command: |
-            GOOS=darwin  GOARCH=amd64 go build -o artifacts/$CIRCLE_PROJECT_REPONAME_darwin_amd64
-            GOOS=linux   GOARCH=amd64 go build -o artifacts/$CIRCLE_PROJECT_REPONAME_linux_amd64
-            GOOS=windows GOARCH=amd64 go build -o artifacts/$CIRCLE_PROJECT_REPONAME_windows_amd64.exe
+            GOOS=darwin  GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_darwin_amd64
+            GOOS=linux   GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64
+            GOOS=windows GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_windows_amd64.exe
       - run: 
           name: List artifacts
           command: ls -lah artifacts/
@@ -41,8 +41,8 @@ jobs:
           name: Publish Release on GitHub
           command: |
             go get github.com/tcnksm/ghr
-            VERSION=$(./artifacts/$CIRCLE_PROJECT_REPONAME_linux_amd64 --version)
-            ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -c $CIRCLE_SHA1 -n $VERSION -delete $VERSION ./artifacts/
+            VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${VERSION} -delete ${VERSION} ./artifacts/
 
 workflows:
   ghctl_workflow:
