@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.6 (2019-10-17)
+
+ - Add `add collaborator` command with flags `--org SomeOrg --repo some-repo --user some-user --permission pull|push|admin`
+
 ## v0.1.5 (2019-10-15)
 
  - Update `create protection` command with flags `-s|--required-status-checks "ci/circleci: build" "SonarCloud Code Analysis"`

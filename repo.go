@@ -98,3 +98,23 @@ func not(o *bool) *bool {
 	result = !*o
 	return &result
 }
+
+func addCollaboratorToRepo(org string,
+	repo, user, permission string) {
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: githubToken()})
+	tc := oauth2.NewClient(ctx, ts)
+	client := github.NewClient(tc)
+
+	perm := &github.RepositoryAddCollaboratorOptions{
+		Permission: permission,
+	}
+
+	resp, err := client.Repositories.AddCollaborator(ctx, org, repo, user, perm)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	fmt.Println(resp.Status)
+}

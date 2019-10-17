@@ -36,6 +36,10 @@ func main() {
 			args.Add.Files.CommitMessage,
 			args.Add.Files.GitName, args.Add.Files.GitEmail,
 			args.OutputFormat)
+	} else if args.Add != nil && args.Add.Collaborator != nil {
+		addCollaboratorToRepo(args.Org,
+			args.Add.Collaborator.Repo, args.Add.Collaborator.User,
+			args.Add.Collaborator.Permission)
 	} else if args.Create != nil && args.Create.Protection != nil {
 		createProtection(args.Org,
 			args.Create.Protection.Repo, args.Create.Protection.Branch,
