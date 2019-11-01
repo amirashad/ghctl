@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.6.1 (2019-11-01)
+
+ - Change github badge style to default rounded rect
+
 ## v0.1.6 (2019-10-17)
 
  - Add `add collaborator` command with flags `--org SomeOrg --repo some-repo --user some-user --permission pull|push|admin`
