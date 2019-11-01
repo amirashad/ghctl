@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.7 (2019-11-01)
+
+ - Update go-arg to version 1.2.0
+
 ## v0.1.6.1 (2019-11-01)
 
  - Change github badge style to default rounded rect
