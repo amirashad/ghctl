@@ -3,7 +3,8 @@ package main
 type Args struct {
 	Token        string `arg:"env:GITHUB_TOKEN,required"`
 	Org          string `arg:"required"`
-	OutputFormat string `arg:"-o" help:"output format: normal, json"`
+	OutputFormat string `arg:"-o" help:"output format: normal, json" default:"normal"`
+	Verbose      bool   `arg:"-v" default:"false"`
 
 	Get    *Get    `arg:"subcommand:get"`
 	Create *Create `arg:"subcommand:create"`

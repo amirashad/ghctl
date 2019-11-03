@@ -12,7 +12,7 @@ func createProtection(org, repoName, protectionPattern string, minApprove int, d
 	canDismiss, canDismissTeams, canPush, canPushTeams []string,
 	requiredStatusChecks []string) {
 	ctx := context.Background()
-	client := authn(ctx)
+	client := createGithubClient(ctx)
 
 	preq := &github.ProtectionRequest{
 		RequiredPullRequestReviews: &github.PullRequestReviewsEnforcementRequest{

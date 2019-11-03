@@ -12,7 +12,7 @@ import (
 
 func getTeams(org string, format string) {
 	ctx := context.Background()
-	client := authn(ctx)
+	client := createGithubClient(ctx)
 
 	opt := &github.ListOptions{PerPage: 100}
 	var objsAll []*github.Team

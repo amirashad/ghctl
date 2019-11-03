@@ -12,7 +12,7 @@ import (
 
 func getRepos(org string, format string) {
 	ctx := context.Background()
-	client := authn(ctx)
+	client := createGithubClient(ctx)
 
 	opt := &github.RepositoryListByOrgOptions{ /*Type: "private", */ ListOptions: github.ListOptions{PerPage: 100}}
 	var objsAll []*github.Repository
@@ -50,7 +50,7 @@ func createRepo(org string,
 	noMergeCommit, noSquashMerge, noRebaseMerge *bool,
 	format string) {
 	ctx := context.Background()
-	client := authn(ctx)
+	client := createGithubClient(ctx)
 
 	repo := &github.Repository{
 		Name:        name,
@@ -97,7 +97,7 @@ func not(o *bool) *bool {
 func addCollaboratorToRepo(org string,
 	repo, user, permission string) {
 	ctx := context.Background()
-	client := authn(ctx)
+	client := createGithubClient(ctx)
 
 	perm := &github.RepositoryAddCollaboratorOptions{
 		Permission: permission,
