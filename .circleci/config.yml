@@ -13,7 +13,7 @@ commands:
           command: go build
       - run:
           name: Unit Test
-          command: go test
+          command: go test ./... -v
       - run:
           name: Get version
           command: ./ghctl --version
