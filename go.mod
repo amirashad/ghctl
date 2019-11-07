@@ -1,6 +1,6 @@
 module github.com/amirashad/ghctl
 
-go 1.13
+go 1.13.4
 
 require (
 	github.com/alexflint/go-arg v1.2.0

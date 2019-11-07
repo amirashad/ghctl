@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/google/go-github/v28/github"
-	"golang.org/x/oauth2"
 )
 
 func createProtection(org, repoName, protectionPattern string, minApprove int, dismissStalePrApprovals, codeOwner bool,
@@ -13,9 +12,7 @@ func createProtection(org, repoName, protectionPattern string, minApprove int, d
 	canDismiss, canDismissTeams, canPush, canPushTeams []string,
 	requiredStatusChecks []string) {
 	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: githubToken()})
-	tc := oauth2.NewClient(ctx, ts)
-	client := github.NewClient(tc)
+	client := createGithubClient(ctx)
 
 	preq := &github.ProtectionRequest{
 		RequiredPullRequestReviews: &github.PullRequestReviewsEnforcementRequest{

@@ -2,8 +2,9 @@ package main
 
 type Args struct {
 	Token        string `arg:"env:GITHUB_TOKEN,required"`
-	Org          string `arg:"required"`
-	OutputFormat string `arg:"-o" help:"output format: normal, json"`
+	Org          string `arg:"env:GITHUB_ORG,required"`
+	OutputFormat string `arg:"-o" help:"output format: normal, json" default:"normal"`
+	Verbose      bool   `arg:"-v" default:"false"`
 
 	Get    *Get    `arg:"subcommand:get"`
 	Create *Create `arg:"subcommand:create"`
@@ -11,7 +12,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "v0.1.7"
+	return "v0.1.8"
 }
 
 type Get struct {
@@ -82,7 +83,7 @@ type Files struct {
 	Files         []string `arg:"-f,required"`
 	GitName       string   `arg:"-n,required"`
 	GitEmail      string   `arg:"-e,required"`
-	CommitMessage string   `arg:"-m"`
+	CommitMessage string   `arg:"-m,--gitmessage"`
 }
 type Collaborator struct {
 	Repo       string `arg:"-r,required"`

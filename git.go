@@ -22,7 +22,7 @@ const gitUsername = "some-user"
 func createBranch(org string, repo string, branch string, format string) {
 	auth := &http.BasicAuth{
 		Username: gitUsername, // anything except an empty string
-		Password: githubToken(),
+		Password: args.Token,
 	}
 
 	// Clone the given repository to the memory
@@ -59,7 +59,7 @@ func createBranch(org string, repo string, branch string, format string) {
 func addFiles(org, repo, branch string, files []string, commitmessage, gitName, gitEmail, format string) {
 	auth := &http.BasicAuth{
 		Username: gitUsername, // anything except an empty string
-		Password: githubToken(),
+		Password: args.Token,
 	}
 
 	dir, err := ioutil.TempDir("", repo+"-"+branch)

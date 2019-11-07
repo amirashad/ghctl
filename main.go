@@ -7,7 +7,6 @@ import (
 var args Args
 
 func main() {
-	args.OutputFormat = "normal"
 	arg.MustParse(&args)
 	// fmt.Println(args)
 
@@ -52,8 +51,4 @@ func main() {
 			args.Create.Protection.CanPush, args.Create.Protection.CanPushTeams,
 			args.Create.Protection.RequiredStatusChecks)
 	}
-}
-
-func githubToken() string {
-	return args.Token
 }
