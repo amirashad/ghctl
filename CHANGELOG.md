@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.8.1 (2019-11-08)
+
+ - Add go style checking (golint) and vet to pipeline
+
 ## v0.1.8 (2019-11-08)
 
  - Accept org name from env variable: GITHUB_ORG
