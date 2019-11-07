@@ -12,9 +12,6 @@ commands:
           name: Build
           command: go build
       - run:
-          name: Unit Test
-          command: go test ./... -v
-      - run:
           name: Lint
           command: |
             go get -u golang.org/x/lint/golint
@@ -22,6 +19,9 @@ commands:
       - run:
           name: "Vet: report likely mistakes in packages"
           command: go vet ./...
+      - run:
+          name: Unit Test
+          command: go test ./... -v
       - run:
           name: Get version
           command: ./ghctl --version
