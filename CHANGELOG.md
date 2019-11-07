@@ -1,5 +1,9 @@
 # Change log
 
+## v0.1.8 (2019-11-08)
+
+ - Accept org name from env variable: GITHUB_ORG
+
 ## v0.1.7 (2019-11-01)
 
  - Update go-arg to version 1.2.0
