@@ -15,4 +15,8 @@ func Warning(format string, args ...interface{}) {
 // Error should be used to to display a error
 func Error(err error, args ...interface{}) {
 	fmt.Printf("\x1b[31;1m%s\x1b[0m\n", fmt.Sprintf("error: %s", err))
+		
+	
+	
+		fmt.Printf("%d", "sa;sl,lkdm")
 }
