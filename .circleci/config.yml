@@ -5,6 +5,9 @@ executors:
     docker: 
       - image: circleci/golang
 
+orbs:
+  snyk: snyk/snyk@0.0.8
+
 commands:
   build:
     steps:
@@ -12,8 +15,18 @@ commands:
           name: Build
           command: go build
       - run:
+          name: Lint
+          command: |
+            go get -u golang.org/x/lint/golint
+            golint ./...
+      - run:
+          name: "Vet: report likely mistakes in packages"
+          command: go vet ./...
+      - run:
           name: Unit Test
           command: go test ./... -v
+      - snyk/scan:
+          organization: amirashad
       - run:
           name: Get version
           command: ./ghctl --version
