@@ -25,7 +25,8 @@ commands:
       - run:
           name: Unit Test
           command: go test ./... -v
-      - snyk/scan
+      - snyk/scan:
+          organization: amirashad
       - run:
           name: Get version
           command: ./ghctl --version
