@@ -1,8 +1,10 @@
 # Change log
 
-## v0.1.8.1 (2019-11-08)
+## v0.1.9 (2019-11-08)
 
  - Add go style checking (golint) and vet to pipeline
+ - Add SNYK vulnerability check to pipeline
+ - Add SNYK badge to README
 
 ## v0.1.8 (2019-11-08)
 
