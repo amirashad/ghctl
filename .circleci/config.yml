@@ -5,6 +5,9 @@ executors:
     docker: 
       - image: circleci/golang
 
+orbs:
+  snyk: snyk/snyk@0.0.8
+
 commands:
   build:
     steps:
@@ -22,6 +25,7 @@ commands:
       - run:
           name: Unit Test
           command: go test ./... -v
+      - snyk/scan
       - run:
           name: Get version
           command: ./ghctl --version
