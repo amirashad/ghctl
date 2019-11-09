@@ -17,13 +17,21 @@ func main() {
 	} else if args.Get != nil && args.Get.Teams != nil {
 		getTeams(args.Org, args.OutputFormat)
 	} else if args.Create != nil && args.Create.Repo != nil {
-		createRepo(args.Org,
+		createOrUpdateRepo(args.Org,
 			args.Create.Repo.Name, args.Create.Repo.Description, args.Create.Repo.Homepage,
 			args.Create.Repo.Private, args.Create.Repo.NoIssues, args.Create.Repo.NoProjects, args.Create.Repo.NoWiki, args.Create.Repo.AutoInit,
 			args.Create.Repo.GitignoreTemplate, args.Create.Repo.LicenseTemplate,
 			args.Create.Repo.NoMergeCommit, args.Create.Repo.NoSquashMerge, args.Create.Repo.NoRebaseMerge,
 			args.Create.Repo.DefaultBranch,
-			args.OutputFormat)
+			args.OutputFormat, true)
+	} else if args.Update != nil && args.Update.Repo != nil {
+		createOrUpdateRepo(args.Org,
+			args.Update.Repo.Name, args.Update.Repo.Description, args.Update.Repo.Homepage,
+			args.Update.Repo.Private, args.Update.Repo.NoIssues, args.Update.Repo.NoProjects, args.Update.Repo.NoWiki, args.Update.Repo.AutoInit,
+			args.Update.Repo.GitignoreTemplate, args.Update.Repo.LicenseTemplate,
+			args.Update.Repo.NoMergeCommit, args.Update.Repo.NoSquashMerge, args.Update.Repo.NoRebaseMerge,
+			args.Update.Repo.DefaultBranch,
+			args.OutputFormat, false)
 	} else if args.Create != nil && args.Create.Branch != nil {
 		createBranch(args.Org,
 			args.Create.Branch.Repo,

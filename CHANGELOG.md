@@ -3,6 +3,7 @@
 ## v0.1.10 (2019-11-09)
 
  - Update `create repo` command with support for `--defaultbranch "develop"`
+ - Create `update repo` command analogy with `create repo`
 
 ## v0.1.9 (2019-11-08)
 
