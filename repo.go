@@ -43,12 +43,13 @@ func getRepos(org string, format string) {
 	}
 }
 
-func createRepo(org string,
+func createOrUpdateRepo(org string,
 	name, descr, homepage *string,
 	private, noIssues, noProjects, noWiki, autoinit *bool,
 	gitIgnoreTemplate, licenseTemplate *string,
 	noMergeCommit, noSquashMerge, noRebaseMerge *bool,
-	format string) {
+	defaultBranch *string,
+	format string, create bool) {
 	ctx := context.Background()
 	client := createGithubClient(ctx)
 
@@ -69,9 +70,17 @@ func createRepo(org string,
 		AllowMergeCommit: not(noMergeCommit),
 		AllowSquashMerge: not(noSquashMerge),
 		AllowRebaseMerge: not(noRebaseMerge),
+
+		DefaultBranch: defaultBranch,
 	}
 
-	objs, _, err := client.Repositories.Create(ctx, org, repo)
+	var objs *github.Repository
+	var err error
+	if create {
+		objs, _, err = client.Repositories.Create(ctx, org, repo)
+	} else {
+		objs, _, err = client.Repositories.Edit(ctx, org, *name, repo)
+	}
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
