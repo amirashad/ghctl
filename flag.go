@@ -9,10 +9,11 @@ type Args struct {
 	Get    *Get    `arg:"subcommand:get"`
 	Create *Create `arg:"subcommand:create"`
 	Add    *Add    `arg:"subcommand:add"`
+	Update *Create `arg:"subcommand:update"`
 }
 
 func (Args) Version() string {
-	return "v0.1.9"
+	return "v0.1.10"
 }
 
 type Get struct {
@@ -49,6 +50,8 @@ type Repo struct {
 	NoMergeCommit *bool
 	NoSquashMerge *bool
 	NoRebaseMerge *bool
+
+	DefaultBranch *string
 }
 type Branch struct {
 	Repo   string `arg:"-r,required"`

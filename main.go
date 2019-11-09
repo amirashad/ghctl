@@ -22,6 +22,7 @@ func main() {
 			args.Create.Repo.Private, args.Create.Repo.NoIssues, args.Create.Repo.NoProjects, args.Create.Repo.NoWiki, args.Create.Repo.AutoInit,
 			args.Create.Repo.GitignoreTemplate, args.Create.Repo.LicenseTemplate,
 			args.Create.Repo.NoMergeCommit, args.Create.Repo.NoSquashMerge, args.Create.Repo.NoRebaseMerge,
+			args.Create.Repo.DefaultBranch,
 			args.OutputFormat)
 	} else if args.Create != nil && args.Create.Branch != nil {
 		createBranch(args.Org,

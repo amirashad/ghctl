@@ -48,6 +48,7 @@ func createRepo(org string,
 	private, noIssues, noProjects, noWiki, autoinit *bool,
 	gitIgnoreTemplate, licenseTemplate *string,
 	noMergeCommit, noSquashMerge, noRebaseMerge *bool,
+	defaultBranch *string,
 	format string) {
 	ctx := context.Background()
 	client := createGithubClient(ctx)
@@ -69,6 +70,8 @@ func createRepo(org string,
 		AllowMergeCommit: not(noMergeCommit),
 		AllowSquashMerge: not(noSquashMerge),
 		AllowRebaseMerge: not(noRebaseMerge),
+
+		DefaultBranch: defaultBranch,
 	}
 
 	objs, _, err := client.Repositories.Create(ctx, org, repo)
