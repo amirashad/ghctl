@@ -52,6 +52,10 @@ func main() {
 		addCollaboratorToRepo(args.Org,
 			args.Add.Collaborator.Repo, args.Add.Collaborator.User,
 			args.Add.Collaborator.Permission)
+	} else if args.Add != nil && args.Add.Team != nil {
+		addTeamToRepo(args.Org,
+			args.Add.Team.Repo, args.Add.Team.Team,
+			args.Add.Team.Permission)
 	} else if args.Create != nil && args.Create.Protection != nil {
 		createProtection(args.Org,
 			args.Create.Protection.Repo, args.Create.Protection.Branch,
