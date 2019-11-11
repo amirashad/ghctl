@@ -42,3 +42,21 @@ func getTeams(org string, format string) {
 		fmt.Println(string(bytes))
 	}
 }
+
+func getTeam(org string, team *string, format string) {
+	ctx := context.Background()
+	client := createGithubClient(ctx)
+
+	obj, _, err := client.Teams.GetTeamBySlug(ctx, org, *team)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	if format == "normal" {
+		fmt.Println(*obj.Name)
+	} else if format == "json" {
+		bytes, _ := json.Marshal(obj)
+		fmt.Println(string(bytes))
+	}
+}
