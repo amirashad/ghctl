@@ -1,5 +1,9 @@
 # Change log
 
+## v0.2.0 (2019-11-11)
+
+ - Get detailed information about team by team name: `get teams TEAMNAME`
+
 ## v0.1.10 (2019-11-09)
 
  - Update `create repo` command with support for `--defaultbranch "develop"`

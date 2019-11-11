@@ -15,7 +15,11 @@ func main() {
 	} else if args.Get != nil && args.Get.Members != nil {
 		getMembers(args.Org, args.OutputFormat)
 	} else if args.Get != nil && args.Get.Teams != nil {
-		getTeams(args.Org, args.OutputFormat)
+		if args.Get.Teams.TeamName != nil {
+			getTeam(args.Org, args.Get.Teams.TeamName, args.OutputFormat)
+		} else {
+			getTeams(args.Org, args.OutputFormat)
+		}
 	} else if args.Create != nil && args.Create.Repo != nil {
 		createOrUpdateRepo(args.Org,
 			args.Create.Repo.Name, args.Create.Repo.Description, args.Create.Repo.Homepage,

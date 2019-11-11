@@ -13,7 +13,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "v0.1.10"
+	return "v0.2.0"
 }
 
 type Get struct {
@@ -26,6 +26,7 @@ type Repos struct {
 type Members struct {
 }
 type Teams struct {
+	TeamName *string `arg:"positional"`
 }
 
 type Create struct {
