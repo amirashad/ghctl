@@ -60,3 +60,27 @@ func getTeam(org string, team *string, format string) {
 		fmt.Println(string(bytes))
 	}
 }
+
+func addTeamToRepo(org string,
+	repo, team, permission string) {
+	ctx := context.Background()
+	client := createGithubClient(ctx)
+
+	teamDetailed, _, err := client.Teams.GetTeamBySlug(ctx, org, team)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	perm := &github.TeamAddTeamRepoOptions{
+		Permission: permission,
+	}
+
+	resp, err := client.Teams.AddTeamRepo(ctx, *teamDetailed.ID, org, repo, perm)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	fmt.Println(resp.Status)
+}

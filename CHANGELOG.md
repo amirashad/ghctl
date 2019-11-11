@@ -1,5 +1,9 @@
 # Change log
 
+## v0.2.1 (2019-11-11)
+
+ - Add team to repo: `add team --team "team" --repo "repo" --permission "pull|push|admin"`
+
 ## v0.2.0 (2019-11-11)
 
  - Get detailed information about team by team name: `get teams TEAMNAME`
