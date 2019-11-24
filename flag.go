@@ -13,7 +13,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "v0.2.1"
+	return "v0.2.2"
 }
 
 type Get struct {
@@ -64,17 +64,17 @@ type Protection struct {
 
 	MinApprove              int  `arg:"-p"`
 	DismissStaleReviews     bool `arg:"-d"`
-	CanDismiss              []string
-	CanDismissTeams         []string
+	CanDismiss              string
+	CanDismissTeams         string
 	RequireBranchesUpToDate bool
 
 	CodeOwner     bool `arg:"-c"`
 	IncludeAdmins bool `arg:"-a"`
 
-	CanPush      []string
-	CanPushTeams []string
+	CanPush      string
+	CanPushTeams string
 
-	RequiredStatusChecks []string `arg:"-s,--required-status-checks"`
+	RequiredStatusChecks string `arg:"-s,--required-status-checks"`
 }
 
 type Add struct {
