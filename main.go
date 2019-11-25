@@ -7,7 +7,6 @@ import (
 var args Args
 
 func main() {
-
 	arg.MustParse(&args)
 	// fmt.Println(args)
 
