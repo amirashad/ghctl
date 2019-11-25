@@ -8,6 +8,7 @@ import (
 	"sort"
 
 	"github.com/google/go-github/v28/github"
+	"gopkg.in/yaml.v2"
 )
 
 func getRepos(org string, format string) {
@@ -120,3 +121,69 @@ func addCollaboratorToRepo(org string,
 
 	fmt.Println(resp.Status)
 }
+
+func getRepo(org string, repo *string, format string) {
+	ctx := context.Background()
+	client := createGithubClient(ctx)
+
+	obj, _, err := client.Repositories.Get(ctx, org, *repo)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	if format == "normal" {
+		fmt.Println(*obj.Name)
+	} else if format == "json" {
+		bytes, _ := json.Marshal(obj)
+		fmt.Println(string(bytes))
+	} else if format == "yaml" {
+		yamlTop := YamlTop{
+			Github: YamlGithub{
+				Repository: repoToYaml(obj),
+			},
+		}
+		bytes, err := yaml.Marshal(&yamlTop)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		fmt.Println(string(bytes))
+	}
+}
+
+func getRepoTeams(org string, repo string) map[string]string {
+	ctx := context.Background()
+	client := createGithubClient(ctx)
+
+	teams, _, err := client.Repositories.ListTeams(ctx, org, repo, &github.ListOptions{})
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	mapTeams := map[string]string{}
+	for _, v := range teams {
+		mapTeams[*v.Name] = *v.Permission
+	}
+
+	return mapTeams
+}
+
+// func getRepoProtections(org string, repo string) map[string]string {
+// 	ctx := context.Background()
+// 	client := createGithubClient(ctx)
+
+// 	teams, _, err := client.Repositories.ListTeams(ctx, org, repo, &github.ListOptions{})
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		os.Exit(1)
+// 	}
+
+// 	mapTeams := map[string]string{}
+// 	for _, v := range teams {
+// 		mapTeams[*v.Name] = *v.Permission
+// 	}
+
+// 	return mapTeams
+// }
