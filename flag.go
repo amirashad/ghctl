@@ -13,7 +13,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "v0.2.2"
+	return "v0.2.3"
 }
 
 type Get struct {
@@ -22,6 +22,7 @@ type Get struct {
 	Teams   *Teams   `arg:"subcommand:teams"`
 }
 type Repos struct {
+	RepoName *string `arg:"positional"`
 }
 type Members struct {
 }

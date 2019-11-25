@@ -7,11 +7,16 @@ import (
 var args Args
 
 func main() {
+
 	arg.MustParse(&args)
 	// fmt.Println(args)
 
 	if args.Get != nil && args.Get.Repos != nil {
-		getRepos(args.Org, args.OutputFormat)
+		if args.Get.Repos.RepoName != nil {
+			getRepo(args.Org, args.Get.Repos.RepoName, args.OutputFormat)
+		} else {
+			getRepos(args.Org, args.OutputFormat)
+		}
 	} else if args.Get != nil && args.Get.Members != nil {
 		getMembers(args.Org, args.OutputFormat)
 	} else if args.Get != nil && args.Get.Teams != nil {
