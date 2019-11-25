@@ -1,5 +1,9 @@
 # Change log
 
+## v0.2.3 (2019-11-...)
+
+ - Update protection canpush, canpushteams ...
+
 ## v0.2.2 (2019-11-25)
 
  - Change multiple argument strategy. Now we should add `,` between args of canpush, canpushteams, candismiss, candismissteams, required-status-checks

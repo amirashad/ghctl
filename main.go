@@ -66,6 +66,7 @@ func main() {
 			args.Create.Protection.IncludeAdmins,
 			args.Create.Protection.CanDismiss, args.Create.Protection.CanDismissTeams,
 			args.Create.Protection.CanPush, args.Create.Protection.CanPushTeams,
-			args.Create.Protection.RequiredStatusChecks)
+			args.Create.Protection.RequiredStatusChecks,
+			args.Create.Protection.Add, args.Create.Protection.Delete)
 	}
 }

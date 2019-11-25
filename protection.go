@@ -11,9 +11,15 @@ import (
 func createProtection(org, repoName, protectionPattern string, minApprove int, dismissStalePrApprovals, codeOwner bool,
 	requireBranchesUptodate, includeAdmins bool,
 	canDismiss, canDismissTeams, canPush, canPushTeams string,
-	requiredStatusChecks string) {
+	requiredStatusChecks string,
+	add, delete bool) {
 	ctx := context.Background()
 	client := createGithubClient(ctx)
+
+	// protection, _, err := client.Repositories.GetBranchProtection(ctx, org, repoName, protectionPattern)
+	// if err != nil {
+
+	// }
 
 	preq := &github.ProtectionRequest{
 		RequiredPullRequestReviews: &github.PullRequestReviewsEnforcementRequest{
