@@ -1,8 +1,12 @@
 # Change log
 
+## v0.2.4 (2019-12-01)
+
+ - Get repo protection information as yaml: `get repo REPONAME -o yaml`
+
 ## v0.2.3 (2019-11-25)
 
- - Get repo detailed information by name: `get repo REPONAME -o json`
+ - Get repo detailed information by name: `get repo REPONAME -o json|yaml`
  - Get repo as yaml: `get repo REPONAME -o yaml`
 
 ## v0.2.2 (2019-11-25)

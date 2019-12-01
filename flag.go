@@ -13,7 +13,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "v0.2.3"
+	return "v0.2.4"
 }
 
 type Get struct {
