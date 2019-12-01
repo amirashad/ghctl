@@ -25,12 +25,31 @@ type YamlRepository struct {
 	Pages YamlRepositoryPages `yaml:"pages"`
 	Merge YamlRepositoryMerge `yaml:"merge"`
 	Teams map[string]string   `yaml:"teams"`
+
+	Branches []YamlBranch `yaml:"branches"`
 }
 type YamlGithub struct {
 	Repository YamlRepository `yaml:"repo"`
 }
 type YamlTop struct {
 	Github YamlGithub `yaml:"github"`
+}
+
+type YamlBranchRequiredStatusChecks struct {
+	RequiredBranchesUpToDate bool     `yaml:"requiredBranchesUpToDate"`
+	Contexts                 []string `yaml:"contexts"`
+}
+type YamlPush struct {
+	Users []string `yaml:"users"`
+	Teams []string `yaml:"teams"`
+}
+type YamlBranch struct {
+	Name                 string                         `yaml:"name"`
+	MinApprove           int                            `yaml:"minApprove"`
+	CodeOwners           bool                           `yaml:"codeOwners"`
+	IncludeAdmins        bool                           `yaml:"includeAdmins"`
+	RequiredStatusChecks YamlBranchRequiredStatusChecks `yaml:"requiredStatusChecks"`
+	Push                 YamlPush                       `yaml:"push"`
 }
 
 func repoToYaml(obj *github.Repository) YamlRepository {
@@ -54,7 +73,8 @@ func repoToYaml(obj *github.Repository) YamlRepository {
 			AllowRebaseMerge: obj.AllowRebaseMerge,
 			AllowSquashMerge: obj.AllowSquashMerge,
 		},
-		Teams: getRepoTeams(*obj.Owner.Login, *obj.Name),
+		Teams:    getRepoTeams(*obj.Owner.Login, *obj.Name),
+		Branches: getRepoProtections(*obj.Owner.Login, *obj.Name),
 	}
 	return yamlRepo
 }

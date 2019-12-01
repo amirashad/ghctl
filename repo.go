@@ -170,20 +170,61 @@ func getRepoTeams(org string, repo string) map[string]string {
 	return mapTeams
 }
 
-// func getRepoProtections(org string, repo string) map[string]string {
-// 	ctx := context.Background()
-// 	client := createGithubClient(ctx)
+func getRepoProtections(org string, repo string) []YamlBranch {
+	ctx := context.Background()
+	client := createGithubClient(ctx)
 
-// 	teams, _, err := client.Repositories.ListTeams(ctx, org, repo, &github.ListOptions{})
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		os.Exit(1)
-// 	}
+	opt := &github.ListOptions{PerPage: 100}
+	var objsAll []*github.Branch
+	for {
+		branches, resp, err := client.Repositories.ListBranches(ctx, org, repo, opt)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		objsAll = append(objsAll, branches...)
+		if resp.NextPage == 0 {
+			break
+		}
+		opt.Page = resp.NextPage
+	}
 
-// 	mapTeams := map[string]string{}
-// 	for _, v := range teams {
-// 		mapTeams[*v.Name] = *v.Permission
-// 	}
+	protectedBranches := []YamlBranch{}
+	for _, v := range objsAll {
+		if *v.Protected {
+			protection, _, err := client.Repositories.GetBranchProtection(ctx, org, repo, *v.Name)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
 
-// 	return mapTeams
-// }
+			var users, teams []string
+			if protection.Restrictions != nil {
+				for _, v := range protection.Restrictions.Users {
+					users = append(users, *v.Login)
+				}
+				for _, v := range protection.Restrictions.Teams {
+					teams = append(teams, *v.Name)
+				}
+			}
+
+			yamlBranch := YamlBranch{
+				Name:          *v.Name,
+				MinApprove:    protection.RequiredPullRequestReviews.RequiredApprovingReviewCount,
+				CodeOwners:    protection.RequiredPullRequestReviews.RequireCodeOwnerReviews,
+				IncludeAdmins: protection.EnforceAdmins.Enabled,
+				RequiredStatusChecks: YamlBranchRequiredStatusChecks{
+					RequiredBranchesUpToDate: protection.RequiredStatusChecks.Strict,
+					Contexts:                 protection.RequiredStatusChecks.Contexts,
+				},
+				Push: YamlPush{
+					Users: users,
+					Teams: teams,
+				},
+			}
+			protectedBranches = append(protectedBranches, yamlBranch)
+		}
+	}
+
+	return protectedBranches
+}
