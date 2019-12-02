@@ -12,19 +12,22 @@ type YamlRepositoryPages struct {
 	Projects *bool `yaml:"projects"`
 	Wiki     *bool `yaml:"wiki"`
 }
+type YamlOnCreate struct {
+	AutoInit  *bool   `yaml:"autoInit"`
+	Gitignore *string `yaml:"gitignore"`
+	License   *string `yaml:"license"`
+}
 type YamlRepository struct {
 	Name          *string `yaml:"name"`
 	Description   *string `yaml:"description"`
 	Homepage      *string `yaml:"homepage"`
 	Private       *bool   `yaml:"private"`
-	AutoInit      *bool   `yaml:"autoInit"`
-	Gitignore     *string `yaml:"gitignore"`
-	License       *string `yaml:"license"`
 	DefaultBranch *string `yaml:"defaultBranch"`
 
-	Pages YamlRepositoryPages `yaml:"pages"`
-	Merge YamlRepositoryMerge `yaml:"merge"`
-	Teams map[string]string   `yaml:"teams"`
+	OnCreate YamlOnCreate        `yaml:"onCreate"`
+	Pages    YamlRepositoryPages `yaml:"pages"`
+	Merge    YamlRepositoryMerge `yaml:"merge"`
+	Teams    map[string]string   `yaml:"teams"`
 
 	Branches []YamlBranch `yaml:"branches"`
 }
@@ -58,11 +61,13 @@ func repoToYaml(obj *github.Repository) YamlRepository {
 		Description:   obj.Description,
 		Homepage:      obj.Homepage,
 		Private:       obj.Private,
-		AutoInit:      obj.AutoInit,
-		Gitignore:     obj.GitignoreTemplate,
-		License:       obj.LicenseTemplate,
 		DefaultBranch: obj.DefaultBranch,
 
+		OnCreate: YamlOnCreate{
+			AutoInit:  obj.AutoInit,
+			Gitignore: obj.GitignoreTemplate,
+			License:   obj.LicenseTemplate,
+		},
 		Pages: YamlRepositoryPages{
 			Wiki:     obj.HasWiki,
 			Projects: obj.HasProjects,

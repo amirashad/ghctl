@@ -1,5 +1,9 @@
 # Change log
 
+## v0.2.5 (2019-12-02)
+
+ - Add `onCreate` tag to yaml and group them (autoInit, gitignore, license)
+
 ## v0.2.4.1 (2019-12-02)
 
  - Comment SNYK Badge, because of they don't support Go Github projects yet. 
