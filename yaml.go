@@ -1,6 +1,12 @@
 package main
 
-import "github.com/google/go-github/v28/github"
+import (
+	"fmt"
+	"io/ioutil"
+
+	"github.com/google/go-github/v28/github"
+	"gopkg.in/yaml.v2"
+)
 
 type YamlRepositoryMerge struct {
 	AllowMergeCommit *bool `yaml:"allowMergeCommit"`
@@ -82,4 +88,20 @@ func repoToYaml(obj *github.Repository) YamlRepository {
 		Branches: getRepoProtections(*obj.Owner.Login, *obj.Name),
 	}
 	return yamlRepo
+}
+
+func applyYaml(org string, fileName string) {
+	bytes, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	var yamlTop YamlTop
+	if err := yaml.Unmarshal(bytes, &yamlTop); err != nil {
+		fmt.Println("failed to parse ", fileName, ", err: ", err)
+		return
+	}
+
+	fmt.Println("Parsed Yaml from fle: ", yamlTop)
 }

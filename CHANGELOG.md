@@ -1,5 +1,9 @@
 # Change log
 
+## v0.2.6 (2019-12-02)
+
+ - Support for `apply` command to apply yaml then
+
 ## v0.2.5 (2019-12-02)
 
  - Add `onCreate` tag to yaml and group them (autoInit, gitignore, license)

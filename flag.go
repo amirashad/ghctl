@@ -10,10 +10,11 @@ type Args struct {
 	Create *Create `arg:"subcommand:create"`
 	Add    *Add    `arg:"subcommand:add"`
 	Update *Create `arg:"subcommand:update"`
+	Apply  *Apply  `arg:"subcommand:apply"`
 }
 
 func (Args) Version() string {
-	return "v0.2.5"
+	return "v0.2.6"
 }
 
 type Get struct {
@@ -100,4 +101,8 @@ type Team struct {
 	Repo       string `arg:"-r,required"`
 	Team       string `arg:"-t,required"`
 	Permission string `arg:"-p,required"`
+}
+
+type Apply struct {
+	FileName string `arg:"-f,required"`
 }
