@@ -1,5 +1,9 @@
 # Change log
 
+## v0.2.7 (2019-12-04)
+
+ - Support for `apply` command to apply yaml. Now creates repo, adds teams to repo, creates branches and protections
+
 ## v0.2.6 (2019-12-02)
 
  - Support for `apply` command to apply yaml then
