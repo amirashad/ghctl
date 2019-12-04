@@ -90,7 +90,7 @@ func repoToYaml(obj *github.Repository) YamlRepository {
 	return yamlRepo
 }
 
-func applyYaml(org string, fileName string) {
+func applyYaml(org string, fileName string, format string) {
 	bytes, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		fmt.Println(err)
@@ -103,5 +103,42 @@ func applyYaml(org string, fileName string) {
 		return
 	}
 
-	fmt.Println("Parsed Yaml from fle: ", yamlTop)
+	fmt.Println("Parsed Yaml from file: ", yamlTop)
+
+	repo := yamlTop.Github.Repository
+	createOrUpdateRepo(org,
+		repo.Name, repo.Description, repo.Homepage, repo.Private,
+		not(repo.Pages.Issues), not(repo.Pages.Projects), not(repo.Pages.Wiki),
+		repo.OnCreate.AutoInit, repo.OnCreate.Gitignore, repo.OnCreate.License,
+		not(repo.Merge.AllowMergeCommit), not(repo.Merge.AllowRebaseMerge), not(repo.Merge.AllowSquashMerge),
+		repo.DefaultBranch,
+		format, true)
+	for _, v := range repo.Branches {
+		if v.Name != "master" {
+			createBranch(org, *repo.Name, v.Name, format)
+		}
+		createProtection(org, *repo.Name, v.Name, v.MinApprove,
+			false, v.CodeOwners, v.RequiredStatusChecks.RequiredBranchesUpToDate, v.IncludeAdmins,
+			"", "",
+			makeCommaSeparatedString(v.Push.Users), makeCommaSeparatedString(v.Push.Teams), makeCommaSeparatedString(v.RequiredStatusChecks.Contexts))
+	}
+	for teamName, teamPerm := range repo.Teams {
+		addTeamToRepo(org, *repo.Name, teamName, teamPerm)
+	}
+	createOrUpdateRepo(org,
+		repo.Name, repo.Description, repo.Homepage, repo.Private,
+		not(repo.Pages.Issues), not(repo.Pages.Projects), not(repo.Pages.Wiki),
+		repo.OnCreate.AutoInit, repo.OnCreate.Gitignore, repo.OnCreate.License,
+		not(repo.Merge.AllowMergeCommit), not(repo.Merge.AllowRebaseMerge), not(repo.Merge.AllowSquashMerge),
+		repo.DefaultBranch,
+		format, false)
+
+}
+
+func makeCommaSeparatedString(arr []string) string {
+	var result string
+	for _, v := range arr {
+		result += v + ","
+	}
+	return result
 }

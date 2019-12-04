@@ -72,6 +72,6 @@ func main() {
 			args.Create.Protection.CanPush, args.Create.Protection.CanPushTeams,
 			args.Create.Protection.RequiredStatusChecks)
 	} else if args.Apply != nil {
-		applyYaml(args.Org, args.Apply.FileName)
+		applyYaml(args.Org, args.Apply.FileName, args.OutputFormat)
 	}
 }
