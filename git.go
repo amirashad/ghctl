@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"gopkg.in/src-d/go-git.v4"
@@ -55,8 +54,16 @@ func createBranch(org string, repo string, branch string, format string) {
 	CheckIfError(err)
 }
 
-// create branch from default branch
-func addFiles(org, repo, branch string, files []string, commitmessage, gitName, gitEmail, format string) {
+func addFile(org, repo, branch, fileFrom, fileTo, commitMessage, gitEmail, format string) {
+	if fileFrom == "" {
+		CheckIfError(fmt.Errorf("fileName is empty"))
+	}
+	if fileTo == "" {
+		fileTo = fileFrom
+	}
+	if commitMessage == "" {
+		commitMessage = "Change " + fileTo
+	}
 	auth := &http.BasicAuth{
 		Username: gitUsername, // anything except an empty string
 		Password: args.Token,
@@ -88,13 +95,13 @@ func addFiles(org, repo, branch string, files []string, commitmessage, gitName, 
 	// worktree of the project using the go standard library.
 	// Info("echo \"hello world!\" > example-git-file")
 	// filename := filepath.Join(dir, files)
-	copyFile(files[0], filepath.Join(dir, files[0]))
+	copyFile(fileFrom, filepath.Join(dir, fileTo))
 	// err = ioutil.WriteFile(filename, []byte("hello world!"), 0644)
 	// CheckIfError(err)
 
 	// Adds the new file to the staging area.
-	Info("git add %s", files)
-	_, err = w.Add(files[0])
+	Info("git add %s -> %s", fileFrom, fileTo)
+	_, err = w.Add(fileTo)
 	CheckIfError(err)
 
 	// We can verify the current status of the worktree using the method Status.
@@ -107,13 +114,9 @@ func addFiles(org, repo, branch string, files []string, commitmessage, gitName, 
 	// Commits the current staging area to the repository, with the new file
 	// just created. We should provide the object.Signature of Author of the
 	// commit.
-	Info("git commit -m \"%s\"", commitmessage)
-	if args.Add.Files.CommitMessage == "" {
-		commitmessage = "Change " + strings.Join(files, " ")
-	}
-	commit, err := w.Commit(commitmessage, &git.CommitOptions{
+	Info("git commit -m \"%s\"", commitMessage)
+	commit, err := w.Commit(commitMessage, &git.CommitOptions{
 		Author: &object.Signature{
-			Name:  gitName,
 			Email: gitEmail,
 			When:  time.Now(),
 		},
@@ -134,6 +137,11 @@ func addFiles(org, repo, branch string, files []string, commitmessage, gitName, 
 	CheckIfError(err)
 }
 
+func ensureDirExists(fileName string) {
+	dirName := filepath.Dir(fileName)
+	os.MkdirAll(dirName, os.ModePerm)
+}
+
 func copyFile(from, to string) {
 	input, err := ioutil.ReadFile(from)
 	if err != nil {
@@ -141,6 +149,7 @@ func copyFile(from, to string) {
 		return
 	}
 
+	ensureDirExists(to)
 	err = ioutil.WriteFile(to, input, 0644)
 	if err != nil {
 		fmt.Println("Error creating", to)

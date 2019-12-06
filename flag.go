@@ -14,7 +14,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "v0.2.7"
+	return "v0.2.8"
 }
 
 type Get struct {
@@ -80,17 +80,17 @@ type Protection struct {
 }
 
 type Add struct {
-	Files        *Files        `arg:"subcommand:file"`
+	File         *File         `arg:"subcommand:file"`
 	Collaborator *Collaborator `arg:"subcommand:collaborator"`
 	Team         *Team         `arg:"subcommand:team"`
 }
-type Files struct {
-	Repo          string   `arg:"-r,required"`
-	Branch        string   `arg:"-b,required"`
-	Files         []string `arg:"-f,required"`
-	GitName       string   `arg:"-n,required"`
-	GitEmail      string   `arg:"-e,required"`
-	CommitMessage string   `arg:"-m,--gitmessage"`
+type File struct {
+	Repo          string `arg:"-r,required"`
+	Branch        string `arg:"-b,required"`
+	File          string `arg:"-f,required"`
+	GitName       string `arg:"-n,required"`
+	GitEmail      string `arg:"-e,required"`
+	CommitMessage string `arg:"-m,--gitmessage"`
 }
 type Collaborator struct {
 	Repo       string `arg:"-r,required"`

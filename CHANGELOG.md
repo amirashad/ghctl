@@ -1,5 +1,9 @@
 # Change log
 
+## v0.2.8 (2019-12-06)
+
+ - YAML: Add files to branch with commits on creation
+
 ## v0.2.7 (2019-12-04)
 
  - Support for `apply` command to apply yaml. Now creates repo, adds teams to repo, creates branches and protections
