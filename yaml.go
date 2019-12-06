@@ -1,8 +1,11 @@
 package main
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"github.com/google/go-github/v28/github"
 	"gopkg.in/yaml.v2"
@@ -58,6 +61,7 @@ type YamlBranchOnCreate struct {
 type YamlBranchCommit struct {
 	Message     string `yaml:"message"`
 	FileName    string `yaml:"fileName"`
+	Text        string `yaml:"text"`
 	Destination string `yaml:"destination"`
 }
 type YamlBranch struct {
@@ -128,6 +132,17 @@ func applyYaml(org string, fileName string, format string) {
 		}
 		for _, c := range b.OnCreate.Commits {
 			e := getPrimaryEmail()
+			if c.FileName == "" && c.Text == "" {
+				CheckIfError(fmt.Errorf("eighter specify fileName or text"))
+			} else if c.Text != "" && c.Destination == "" {
+				CheckIfError(fmt.Errorf("destination is empty"))
+			} else if c.Text != "" && c.Destination != "" {
+				c.FileName, err = createFileWithContent(c.Text)
+				if err != nil {
+					CheckIfError(fmt.Errorf("can't write to temp file"))
+				}
+			}
+
 			addFile(org, *repo.Name, b.Name, c.FileName, c.Destination, c.Message, e, format)
 		}
 		createProtection(org, *repo.Name, b.Name, b.MinApprove,
@@ -153,4 +168,17 @@ func makeCommaSeparatedString(arr []string) string {
 		result += v + ","
 	}
 	return result
+}
+
+func createFileWithContent(content string) (fileName string, err error) {
+	fileName = os.TempDir() + TempFileName()
+	Info(fileName)
+	return fileName, ioutil.WriteFile(fileName, []byte(content), 0644)
+}
+
+// TempFileName generates a temporary filename for use in testing or whatever
+func TempFileName() string {
+	randBytes := make([]byte, 16)
+	rand.Read(randBytes)
+	return hex.EncodeToString(randBytes)
 }

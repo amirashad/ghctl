@@ -1,5 +1,9 @@
 # Change log
 
+## v0.2.9 (2019-12-06)
+
+ - YAML: Add support to get file content from yaml
+
 ## v0.2.8 (2019-12-06)
 
  - YAML: Add files to branch with commits on creation
