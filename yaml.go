@@ -52,6 +52,14 @@ type YamlPush struct {
 	Users []string `yaml:"users"`
 	Teams []string `yaml:"teams"`
 }
+type YamlBranchOnCreate struct {
+	Commits []YamlBranchCommit `yaml:"commits"`
+}
+type YamlBranchCommit struct {
+	Message     string `yaml:"message"`
+	FileName    string `yaml:"fileName"`
+	Destination string `yaml:"destination"`
+}
 type YamlBranch struct {
 	Name                 string                         `yaml:"name"`
 	MinApprove           int                            `yaml:"minApprove"`
@@ -59,6 +67,7 @@ type YamlBranch struct {
 	IncludeAdmins        bool                           `yaml:"includeAdmins"`
 	RequiredStatusChecks YamlBranchRequiredStatusChecks `yaml:"requiredStatusChecks"`
 	Push                 YamlPush                       `yaml:"push"`
+	OnCreate             YamlBranchOnCreate             `yaml:"onCreate"`
 }
 
 func repoToYaml(obj *github.Repository) YamlRepository {
@@ -113,14 +122,18 @@ func applyYaml(org string, fileName string, format string) {
 		not(repo.Merge.AllowMergeCommit), not(repo.Merge.AllowRebaseMerge), not(repo.Merge.AllowSquashMerge),
 		repo.DefaultBranch,
 		format, true)
-	for _, v := range repo.Branches {
-		if v.Name != "master" {
-			createBranch(org, *repo.Name, v.Name, format)
+	for _, b := range repo.Branches {
+		if b.Name != "master" {
+			createBranch(org, *repo.Name, b.Name, format)
 		}
-		createProtection(org, *repo.Name, v.Name, v.MinApprove,
-			false, v.CodeOwners, v.RequiredStatusChecks.RequiredBranchesUpToDate, v.IncludeAdmins,
+		for _, c := range b.OnCreate.Commits {
+			e := getPrimaryEmail()
+			addFile(org, *repo.Name, b.Name, c.FileName, c.Destination, c.Message, e, format)
+		}
+		createProtection(org, *repo.Name, b.Name, b.MinApprove,
+			false, b.CodeOwners, b.RequiredStatusChecks.RequiredBranchesUpToDate, b.IncludeAdmins,
 			"", "",
-			makeCommaSeparatedString(v.Push.Users), makeCommaSeparatedString(v.Push.Teams), makeCommaSeparatedString(v.RequiredStatusChecks.Contexts))
+			makeCommaSeparatedString(b.Push.Users), makeCommaSeparatedString(b.Push.Teams), makeCommaSeparatedString(b.RequiredStatusChecks.Contexts))
 	}
 	for teamName, teamPerm := range repo.Teams {
 		addTeamToRepo(org, *repo.Name, teamName, teamPerm)
@@ -132,7 +145,6 @@ func applyYaml(org string, fileName string, format string) {
 		not(repo.Merge.AllowMergeCommit), not(repo.Merge.AllowRebaseMerge), not(repo.Merge.AllowSquashMerge),
 		repo.DefaultBranch,
 		format, false)
-
 }
 
 func makeCommaSeparatedString(arr []string) string {

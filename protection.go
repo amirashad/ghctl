@@ -31,28 +31,18 @@ func createProtection(org, repoName, protectionPattern string, minApprove int, d
 	dismissUsers := splitArgs(canDismiss)
 	dismissTeams := splitArgs(canDismissTeams)
 	if len(dismissUsers)+len(dismissTeams) > 0 {
-		preq.RequiredPullRequestReviews.DismissalRestrictionsRequest = &github.DismissalRestrictionsRequest{}
-		if len(dismissUsers) > 0 {
-			preq.RequiredPullRequestReviews.DismissalRestrictionsRequest.Users = &dismissUsers
-		}
-		if len(dismissTeams) > 0 {
-			preq.RequiredPullRequestReviews.DismissalRestrictionsRequest.Teams = &dismissTeams
+		preq.RequiredPullRequestReviews.DismissalRestrictionsRequest = &github.DismissalRestrictionsRequest{
+			Users: &dismissUsers,
+			Teams: &dismissTeams,
 		}
 	}
 
 	pushUsers := splitArgs(canPush)
 	pushTeams := splitArgs(canPushTeams)
-	fmt.Println(canPushTeams, pushTeams)
 	if len(pushUsers)+len(pushTeams) > 0 {
 		preq.Restrictions = &github.BranchRestrictionsRequest{
-			Users: []string{},
-			Teams: []string{},
-		}
-		if len(pushUsers) > 0 {
-			preq.Restrictions.Users = pushUsers
-		}
-		if len(pushTeams) > 0 {
-			preq.Restrictions.Teams = pushTeams
+			Users: pushUsers,
+			Teams: pushTeams, // TODO: teams not working
 		}
 	}
 
@@ -70,7 +60,7 @@ func createProtection(org, repoName, protectionPattern string, minApprove int, d
 
 func splitArgs(arg string) []string {
 	splitted := strings.Split(arg, ",")
-	var result []string
+	result := []string{}
 	for _, s := range splitted {
 		if len(strings.TrimSpace(s)) != 0 {
 			result = append(result, s)

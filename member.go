@@ -42,3 +42,31 @@ func getMembers(org string, format string) {
 		fmt.Println(string(bytes))
 	}
 }
+
+func getPrimaryEmail() string {
+	ctx := context.Background()
+	client := createGithubClient(ctx)
+
+	opt := &github.ListOptions{PerPage: 100}
+	var objsAll []*github.UserEmail
+	for {
+		objs, resp, err := client.Users.ListEmails(ctx, opt)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		objsAll = append(objsAll, objs...)
+		if resp.NextPage == 0 {
+			break
+		}
+		opt.Page = resp.NextPage
+	}
+
+	for _, e := range objsAll {
+		if *e.Primary && *e.Verified {
+			return *e.Email
+		}
+	}
+
+	return ""
+}

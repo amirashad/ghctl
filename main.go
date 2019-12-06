@@ -45,12 +45,12 @@ func main() {
 			args.Create.Branch.Repo,
 			args.Create.Branch.Branch,
 			args.OutputFormat)
-	} else if args.Add != nil && args.Add.Files != nil {
-		addFiles(args.Org,
-			args.Add.Files.Repo, args.Add.Files.Branch,
-			args.Add.Files.Files,
-			args.Add.Files.CommitMessage,
-			args.Add.Files.GitName, args.Add.Files.GitEmail,
+	} else if args.Add != nil && args.Add.File != nil {
+		addFile(args.Org,
+			args.Add.File.Repo, args.Add.File.Branch,
+			args.Add.File.File,
+			args.Add.File.CommitMessage,
+			args.Add.File.GitName, args.Add.File.GitEmail,
 			args.OutputFormat)
 	} else if args.Add != nil && args.Add.Collaborator != nil {
 		addCollaboratorToRepo(args.Org,
