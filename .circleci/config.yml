@@ -55,6 +55,7 @@ jobs:
       - run: 
           name: Publish to DockerHub
           command: |
+            mv artifacts/${CIRCLE_PROJECT_REPONAME}_alpinelinux_amd64 ./${CIRCLE_PROJECT_REPONAME}
             VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
             echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
             IMAGE_NAME=$DOCKER_USER/${CIRCLE_PROJECT_REPONAME}
