@@ -51,6 +51,7 @@ jobs:
       - run: 
           name: List artifacts
           command: ls -lah artifacts/
+      - setup_remote_docker
       - run: 
           name: Publish to DockerHub
           command: |
