@@ -55,8 +55,8 @@ jobs:
           name: Publish to DockerHub
           command: |
             VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
-            docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
-            IMAGE_NAME=$DOCKER_USERNAME/${CIRCLE_PROJECT_REPONAME}
+            echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+            IMAGE_NAME=$DOCKER_USER/${CIRCLE_PROJECT_REPONAME}
             docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$VERSION .
             docker push $IMAGE_NAME:$VERSION
             docker push $IMAGE_NAME:latest
