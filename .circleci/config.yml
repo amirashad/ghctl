@@ -52,7 +52,7 @@ jobs:
       - run: 
           name: Publish to DockerHub
           command: |
-            mv artifacts/${CIRCLE_PROJECT_REPONAME}_alpinelinux_amd64 ./${CIRCLE_PROJECT_REPONAME}
+            cp artifacts/${CIRCLE_PROJECT_REPONAME}_alpinelinux_amd64 ./${CIRCLE_PROJECT_REPONAME}
             VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
             echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
             IMAGE_NAME=$DOCKER_USER/${CIRCLE_PROJECT_REPONAME}
@@ -67,7 +67,7 @@ jobs:
           command: |
             go get github.com/tcnksm/ghr
             VERSION=v$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
-            # ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${VERSION} -delete ${VERSION} ./artifacts/
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${VERSION} -delete ${VERSION} ./artifacts/
 
 workflows:
   ghctl_workflow:
@@ -76,6 +76,6 @@ workflows:
       - deploy:
           requires:
             - validate
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master

@@ -1,7 +1,8 @@
 FROM alpine
+LABEL maintainer="amirjanov@gmail.com" 
 
 RUN apk add --no-cache curl
 
-COPY ./ghctl ./
+COPY ./ghctl /bin/
 
-ENTRYPOINT ["./ghctl"]
+ENTRYPOINT ["/bin/ghctl"]
