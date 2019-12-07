@@ -66,7 +66,7 @@ jobs:
           name: Publish Release on GitHub
           command: |
             go get github.com/tcnksm/ghr
-            VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
+            VERSION=v$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
             # ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${VERSION} -delete ${VERSION} ./artifacts/
 
 workflows:
