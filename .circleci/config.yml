@@ -41,21 +41,31 @@ jobs:
     executor: golang
     steps:
       - checkout
-      - run: 
+      - run:
           name: Build for multiple architectures
           command: |
-            GOOS=darwin  GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_darwin_amd64
-            GOOS=linux   GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64
-            GOOS=windows GOARCH=amd64 go build -o artifacts/${CIRCLE_PROJECT_REPONAME}_windows_amd64.exe
+            GOOS=darwin  GOARCH=amd64               go build    -o artifacts/${CIRCLE_PROJECT_REPONAME}_darwin_amd64
+            GOOS=linux   GOARCH=amd64               go build    -o artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64
+            GOOS=windows GOARCH=amd64               go build    -o artifacts/${CIRCLE_PROJECT_REPONAME}_windows_amd64.exe
+            GOOS=linux   GOARCH=amd64 CGO_ENABLED=0 go build -a -o artifacts/${CIRCLE_PROJECT_REPONAME}_alpinelinux_amd64
       - run: 
           name: List artifacts
           command: ls -lah artifacts/
+      - run: 
+          name: Publish to DockerHub
+          command: |
+            VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
+            docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
+            IMAGE_NAME=$DOCKER_USERNAME/${CIRCLE_PROJECT_REPONAME}
+            docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$VERSION .
+            docker push $IMAGE_NAME:$VERSION
+            docker push $IMAGE_NAME:latest
       - run:
           name: Publish Release on GitHub
           command: |
             go get github.com/tcnksm/ghr
             VERSION=$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${VERSION} -delete ${VERSION} ./artifacts/
+            # ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${VERSION} -delete ${VERSION} ./artifacts/
 
 workflows:
   ghctl_workflow:
@@ -64,6 +74,6 @@ workflows:
       - deploy:
           requires:
             - validate
-          filters:
-            branches:
-              only: master
+          # filters:
+          #   branches:
+          #     only: master
