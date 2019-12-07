@@ -48,9 +48,6 @@ jobs:
             GOOS=linux   GOARCH=amd64               go build    -o artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64
             GOOS=windows GOARCH=amd64               go build    -o artifacts/${CIRCLE_PROJECT_REPONAME}_windows_amd64.exe
             GOOS=linux   GOARCH=amd64 CGO_ENABLED=0 go build -a -o artifacts/${CIRCLE_PROJECT_REPONAME}_alpinelinux_amd64
-      - run: 
-          name: List artifacts
-          command: ls -lah artifacts/
       - setup_remote_docker
       - run: 
           name: Publish to DockerHub
@@ -62,12 +59,14 @@ jobs:
             docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$VERSION .
             docker push $IMAGE_NAME:$VERSION
             docker push $IMAGE_NAME:latest
+      - run: 
+          name: List artifacts
+          command: ls -lah artifacts/
       - run:
           name: Publish Release on GitHub
           command: |
             go get github.com/tcnksm/ghr
-            # VERSION=v$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
-            echo $VERSION
+            VERSION=v$(./artifacts/${CIRCLE_PROJECT_REPONAME}_linux_amd64 --version)
             # ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${VERSION} -delete ${VERSION} ./artifacts/
 
 workflows:
