@@ -1,5 +1,9 @@
 # Change log
 
+## v0.3.0 (2019-12-07)
+
+ - Docker: Create DockerHub image
+
 ## v0.2.9 (2019-12-06)
 
  - YAML: Add support to get file content from yaml
