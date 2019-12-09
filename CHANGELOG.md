@@ -1,5 +1,9 @@
 # Change log
 
+## v0.3.1 (2019-12-09)
+
+ - Docker: Add yq tool to docker image
+
 ## v0.3.0 (2019-12-07)
 
  - Docker: Create DockerHub image

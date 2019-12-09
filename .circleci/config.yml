@@ -64,8 +64,7 @@ jobs:
             IMAGE_NAME=$DOCKER_USER/${CIRCLE_PROJECT_REPONAME}
             docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$VERSION .
             docker push $IMAGE_NAME:$VERSION
-            # docker push $IMAGE_NAME:latest
-            exit 1
+            docker push $IMAGE_NAME:latest
       - run: 
           name: List artifacts
           command: ls -lah artifacts/
@@ -83,6 +82,6 @@ workflows:
       - deploy:
           requires:
             - validate
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
