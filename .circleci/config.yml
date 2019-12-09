@@ -50,6 +50,12 @@ jobs:
             GOOS=linux   GOARCH=amd64 CGO_ENABLED=0 go build -a -o artifacts/${CIRCLE_PROJECT_REPONAME}_alpinelinux_amd64
       - setup_remote_docker
       - run: 
+          name: Build yq for alpine image
+          command: |
+            git clone git@github.com:mikefarah/yq.git
+            cd yq
+            GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -a
+      - run: 
           name: Publish to DockerHub
           command: |
             cp artifacts/${CIRCLE_PROJECT_REPONAME}_alpinelinux_amd64 ./${CIRCLE_PROJECT_REPONAME}
