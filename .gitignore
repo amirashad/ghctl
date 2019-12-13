@@ -14,4 +14,3 @@ artifacts/
 run*.sh
 ghctl
 *.yaml
-*.yml
