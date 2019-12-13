@@ -152,7 +152,7 @@ $ ghctl apply -f repo.yml
 
 ## GitOps examples
 
-[CircleCI example for automation of repo creation](examples/)
+ - [CircleCI example for automation of repo creation](examples/)
 
 <!-- See [User guide](docs/guides) for each option. -->
 

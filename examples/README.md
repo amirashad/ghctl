@@ -16,7 +16,6 @@ CircleCI context will help you to keep environment variables secure.
 Create two environment variables in that context:
   - `GITHUB_ORG` environment variable with value for your organization
   - `GITHUB_TOKEN` environment variable with value for your API token. More about [creating API token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) 
-.lp
 
 ## 4) Apply repo-creation
 
