@@ -1,5 +1,9 @@
 # Change log
 
+## v0.3.2 (2019-12-13)
+
+ - Update readme to make it understandable
+
 ## v0.3.1 (2019-12-09)
 
  - Docker: Add yq tool to docker image
