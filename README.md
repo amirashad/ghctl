@@ -55,7 +55,7 @@ ghctl currently only manages repositories.
 
 ## Usage
 
-1) ghctl to work properly should set environment variable GITHUB_TOKEN and GITHUB_ORG or specify as command-line argument --token and --org appropriately.
+1) ghctl to work properly should set environment variable `GITHUB_TOKEN` and `GITHUB_ORG` or specify as command-line argument `--token` and `--org` appropriately.
 
 To get more help:
 ```
