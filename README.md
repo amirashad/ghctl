@@ -95,8 +95,8 @@ COMMANDS:
 ```yaml
 github:
   repo:
-    name: << Microservice name >>
-    description: << Microservice description >>
+    name: << Repository name >>
+    description: << Repository description >>
     homepage: 
     private: false
     defaultBranch: develop
@@ -127,7 +127,7 @@ github:
         - 'ci/circleci: validate_infra'
       push:
         users:
-        - << Github username >>
+        - << Github username which has access to push to this branch >>
         teams: []
     - name: master
       minApprove: 1
@@ -141,7 +141,7 @@ github:
         - 'ci/circleci: security_checks'
       push:
         users:
-        - << Github username >>
+        - << Github username which has access to push to this branch >>
         teams: []
 ```
 
