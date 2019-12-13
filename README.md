@@ -3,8 +3,8 @@
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3272/badge)](https://bestpractices.coreinfrastructure.org/projects/3272)
 [![CircleCI](https://circleci.com/gh/amirashad/ghctl.svg?style=shield)](https://circleci.com/gh/amirashad/ghctl)
 [![SonarCloud Status](https://sonarcloud.io/api/project_badges/measure?project=amirashad_ghctl&metric=alert_status)](https://sonarcloud.io/dashboard?id=amirashad_ghctl)
-<!-- [![Known Vulnerabilities](https://snyk.io/test/github/amirashad/ghctl/badge.svg)](https://snyk.io/test/github/amirashad/ghctl) -->
 [![Docker Hub](https://img.shields.io/badge/docker-ready-blue.svg)](https://hub.docker.com/r/amirashad/ghctl/)
+<!-- [![Known Vulnerabilities](https://snyk.io/test/github/amirashad/ghctl/badge.svg)](https://snyk.io/test/github/amirashad/ghctl) -->
 
 a lightweight and portable command-line GitHub repository management tool
 
@@ -12,7 +12,7 @@ The aim of the project is to be automatize the creation of repositories with yam
 
 ## Why ghctl is required?
 
-GitHub is a great version control system. For creating repositories with some branch protection, adding some mandatory reviewers to repo is tedious. And if your organisation works with microservices or serverless architecture, it means that every day you will create repo. 
+GitHub is a great version control system. For creating repositories with branch protection, adding some mandatory reviewers to repo is tedious. Additionally if your organisation works with microservices or serverless architecture, it means that every day you will create repo. 
 
 To automatize this kind of issues ghctl will help you apply your yaml configuration of repo and create repo with some pipeline. 
 
@@ -147,7 +147,7 @@ github:
 
 3) Apply script
 ```console
-ghctl apply -f repo.yml
+$ ghctl apply -f repo.yml
 ```
 
 <!-- See [User guide](docs/guides) for each option. -->
