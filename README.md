@@ -10,7 +10,7 @@ a lightweight and portable command-line GitHub repository management tool
 
 The aim of the project is to be automatize the creation of repositories with yaml files.
 
-## Why ghctl is required?
+## What is ghctl?
 
 GitHub is a great version control system. For creating repositories with branch protection, adding some mandatory reviewers to repo is tedious. Additionally if your organisation works with microservices or serverless architecture, it means that every day you will create repo. 
 
@@ -90,7 +90,7 @@ COMMANDS:
   apply
 ```
 
-2) Create yaml file with needed configurations. For example, create repo.yml
+2) Create yaml file with needed configurations. For example, create repo.yml with following content
 
 ```yaml
 github:
