@@ -21,6 +21,7 @@ To automatize this kind of issues ghctl will help you apply your yaml configurat
 
 ## Installation
 
+<strong>macOS</strong>
 You can download the binary built for your architecture from [the latest release](https://github.com/amirashad/ghctl/releases/latest). The following is an example of installation on macOS:
 
 ```console
