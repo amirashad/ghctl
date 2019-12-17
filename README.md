@@ -153,7 +153,7 @@ github:
 $ ghctl apply -f repo.yml
 ```
 
-## GitOps examples
+## Examples
 
  - [CircleCI example for automation of repo creation](examples/)
 
