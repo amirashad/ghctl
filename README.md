@@ -28,14 +28,14 @@ $ curl https://github.com/amirashad/ghctl/releases/download/v0.3.2/ghctl_darwin_
 $ chmod +x /usr/local/bin/ghctl
 ```
 
-<details><summary>Linux</summary><p>
+<details><summary><strong>Linux</strong></summary><p>
 For Linux based OS, you can use following oneliner to download latest binary for AMD64 architecture.
 ```console
 $ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_linux_amd64")" -o /usr/local/bin/ghctl && chmod +x /usr/local/bin/ghctl 
 ```
 </p></details>
 
-<details><summary>Windows</summary><p>
+<details><summary><strong>Windows</strong></summary><p>
 For Windows OS, you can use following oneliner to download latest binary for AMD64 architecture.
 ```console
 $ curl.exe -L "$(curl.exe -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_windows_amd64.exe")" -o ./ghctl.exe
