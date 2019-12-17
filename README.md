@@ -34,11 +34,13 @@ For Linux based OS, you can use following oneliner to download latest binary for
 $ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_linux_amd64")" -o /usr/local/bin/ghctl && chmod +x /usr/local/bin/ghctl 
 ```
 
-- #### Windows
+<details>
+<summary>Windows</summary>
 For Linux based OS, you can use following oneliner to download latest binary for AMD64 architecture.
 ```console
 $ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_linux_amd64")" -o /usr/local/bin/ghctl && chmod +x /usr/local/bin/ghctl 
 ```
+</details>
 
 ### Docker
 
@@ -52,7 +54,7 @@ You can use this image to automatize repo creation with CI/CD tools like Travis 
 
 ## Features
 
- - Appy with yaml file or with cli args
+ - Apply with yaml file or with cli args
  - Create repository
  - Create branch on repository
  - Create protection on branch
