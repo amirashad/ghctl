@@ -24,7 +24,7 @@ To automatize this kind of issues ghctl will help you apply your yaml configurat
 You can download the binary built for your architecture from [the latest release](https://github.com/amirashad/ghctl/releases/latest). The following is an example of installation on macOS:
 
 ```console
-$ curl https://github.com/amirashad/ghctl/releases/download/v0.3.2/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
+$ curl https://github.com/amirashad/ghctl/releases/download/v0.3.4/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
 $ chmod +x /usr/local/bin/ghctl
 ```
 
@@ -37,9 +37,9 @@ $ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/late
 
 <details><summary><strong>Windows</strong></summary><p>
 
-For Windows OS, you can use following oneliner to download latest binary for AMD64 architecture.
-```console
-$ curl.exe -L "$(curl.exe -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_windows_amd64.exe")" -o ./ghctl.exe
+For Windows OS, you can use following PowerShell command to download binary for AMD64 architecture.
+```
+Invoke-WebRequest https://github.com/amirashad/ghctl/releases/download/v0.3.4/ghctl_windows_amd64.exe -O ghctl.exe
 ```
 
 </p></details>
