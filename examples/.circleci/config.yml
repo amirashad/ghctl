@@ -1,0 +1,45 @@
+version: 2.1
+
+executors:
+  ghctl:
+    docker:
+      - image: amirashad/ghctl:0.3.3
+
+commands:
+  validate:
+    steps:
+      - run:
+          name: ghctl version
+          command: ghctl --version
+  apply:
+    steps:
+      - run:
+          name: apply
+          command: |
+            cd repositories
+            ghctl apply -f ms-example.yml
+
+jobs:
+  validate:
+    executor: ghctl
+    steps:
+      - checkout
+      - validate
+  apply:
+    executor: ghctl
+    steps:
+      - checkout
+      - validate
+      - apply
+
+workflows:
+  workflow:
+    jobs:
+      - validate
+      - apply:
+          context: GITHUB
+          requires:
+            - validate
+          filters:
+            branches:
+              only: master

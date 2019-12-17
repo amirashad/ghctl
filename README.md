@@ -16,6 +16,9 @@ GitHub is a great version control system. For creating repositories with branch 
 
 To automatize this kind of issues ghctl will help you apply your yaml configuration of repo and create repo with some pipeline. 
 
+**`ghctl`** helps you create repository from command-line:
+![ghctl demo GIF](img/ghctl-demo.gif)
+
 ## Installation
 
 You can download the binary built for your architecture from [the latest release](https://github.com/amirashad/ghctl/releases/latest). The following is an example of installation on macOS:
@@ -149,6 +152,10 @@ github:
 ```console
 $ ghctl apply -f repo.yml
 ```
+
+## Examples
+
+ - [CircleCI example for automation of repo creation](examples/)
 
 <!-- See [User guide](docs/guides) for each option. -->
 
