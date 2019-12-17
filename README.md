@@ -36,10 +36,12 @@ $ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/late
 </p></details>
 
 <details><summary><strong>Windows</strong></summary><p>
+
 For Windows OS, you can use following oneliner to download latest binary for AMD64 architecture.
 ```console
 $ curl.exe -L "$(curl.exe -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_windows_amd64.exe")" -o ./ghctl.exe
 ```
+
 </p></details>
 
 ### Docker
