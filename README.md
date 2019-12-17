@@ -21,17 +21,36 @@ To automatize this kind of issues ghctl will help you apply your yaml configurat
 
 ## Installation
 
-You can download the binary built for your architecture from [the latest release](https://github.com/amirashad/ghctl/releases/latest). The following is an example of installation on macOS:
+You can download the binary built for your architecture from [the latest release](https://github.com/amirashad/ghctl/releases/latest). 
+
+<details open><summary><strong>macOS</strong></summary><p>
+
+The following is an example of installation on macOS:
 
 ```console
-$ curl https://github.com/amirashad/ghctl/releases/download/v0.3.2/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
+$ curl https://github.com/amirashad/ghctl/releases/download/v0.3.4/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
 $ chmod +x /usr/local/bin/ghctl
 ```
+
+</p></details>
+
+<details><summary><strong>Linux</strong></summary><p>
 
 For Linux based OS, you can use following oneliner to download latest binary for AMD64 architecture.
 ```console
 $ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_linux_amd64")" -o /usr/local/bin/ghctl && chmod +x /usr/local/bin/ghctl 
 ```
+
+</p></details>
+
+<details><summary><strong>Windows</strong></summary><p>
+
+For Windows OS, you can use following PowerShell command to download binary for AMD64 architecture.
+```
+Invoke-WebRequest https://github.com/amirashad/ghctl/releases/download/v0.3.4/ghctl_windows_amd64.exe -O ghctl.exe
+```
+
+</p></details>
 
 ### Docker
 
@@ -45,12 +64,17 @@ You can use this image to automatize repo creation with CI/CD tools like Travis 
 
 ## Features
 
- - Appy with yaml file or with cli args
+ - Apply with yaml file or with cli args
  - Create repository
  - Create branch on repository
  - Create protection on branch
  - Add mandatory reviewers to branch protection
  - Add required checks to branch protection
+ - Add some files to repository, branch
+ - Get repositories of organisation as yaml or json
+ - Get repository by name as yaml or json
+ - Get members of organisation as yaml or json
+ - Get teams of organisation as yaml or json
 
 ## Limitations
 

@@ -1,5 +1,10 @@
 # Change log
 
+## v0.3.4 (2019-12-17)
+
+ - README: Add installation instruction for Windows
+ - README: Enhance features
+
 ## v0.3.3 (2019-12-17)
 
  - Add example for repo-creation
