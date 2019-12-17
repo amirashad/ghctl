@@ -21,7 +21,7 @@ To automatize this kind of issues ghctl will help you apply your yaml configurat
 
 ## Installation
 
-<strong>macOS</strong>
+<details open><summary><strong>macOS</strong></summary><p>
 
 You can download the binary built for your architecture from [the latest release](https://github.com/amirashad/ghctl/releases/latest). The following is an example of installation on macOS:
 
@@ -29,6 +29,8 @@ You can download the binary built for your architecture from [the latest release
 $ curl https://github.com/amirashad/ghctl/releases/download/v0.3.4/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
 $ chmod +x /usr/local/bin/ghctl
 ```
+
+</p></details>
 
 <details><summary><strong>Linux</strong></summary><p>
 
