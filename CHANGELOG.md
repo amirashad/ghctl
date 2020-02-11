@@ -1,5 +1,9 @@
 # Change log
 
+## v0.3.5 (2020-02-11)
+
+ - FIX: YAML: Add teams to repo before adding users to repo as mergers
+
 ## v0.3.4 (2019-12-17)
 
  - README: Add installation instruction for Windows

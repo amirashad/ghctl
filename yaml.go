@@ -126,6 +126,9 @@ func applyYaml(org string, fileName string, format string) {
 		not(repo.Merge.AllowMergeCommit), not(repo.Merge.AllowRebaseMerge), not(repo.Merge.AllowSquashMerge),
 		repo.DefaultBranch,
 		format, true)
+	for teamName, teamPerm := range repo.Teams {
+		addTeamToRepo(org, *repo.Name, teamName, teamPerm)
+	}
 	for _, b := range repo.Branches {
 		if b.Name != "master" {
 			createBranch(org, *repo.Name, b.Name, format)
@@ -149,9 +152,6 @@ func applyYaml(org string, fileName string, format string) {
 			false, b.CodeOwners, b.RequiredStatusChecks.RequiredBranchesUpToDate, b.IncludeAdmins,
 			"", "",
 			makeCommaSeparatedString(b.Push.Users), makeCommaSeparatedString(b.Push.Teams), makeCommaSeparatedString(b.RequiredStatusChecks.Contexts))
-	}
-	for teamName, teamPerm := range repo.Teams {
-		addTeamToRepo(org, *repo.Name, teamName, teamPerm)
 	}
 	createOrUpdateRepo(org,
 		repo.Name, repo.Description, repo.Homepage, repo.Private,
