@@ -1,5 +1,10 @@
 # Change log
 
+## v0.4.1 (2020-03-05)
+
+ - No need `--gitname` param for `add file` command anymore
+ - FIX: Now destination filename is source filename, instead of commitmessage
+
 ## v0.4.0 (2020-03-05)
 
  - Update go-github dependency to latest (v29)
