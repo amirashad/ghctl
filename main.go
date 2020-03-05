@@ -49,8 +49,9 @@ func main() {
 		addFile(args.Org,
 			args.Add.File.Repo, args.Add.File.Branch,
 			args.Add.File.File,
+			"",
 			args.Add.File.CommitMessage,
-			args.Add.File.GitName, args.Add.File.GitEmail,
+			args.Add.File.GitEmail,
 			args.OutputFormat)
 	} else if args.Add != nil && args.Add.Collaborator != nil {
 		addCollaboratorToRepo(args.Org,
