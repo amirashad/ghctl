@@ -7,7 +7,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/google/go-github/v28/github"
+	"github.com/google/go-github/v29/github"
 )
 
 func getTeams(org string, format string) {
@@ -66,17 +66,11 @@ func addTeamToRepo(org string,
 	ctx := context.Background()
 	client := createGithubClient(ctx)
 
-	teamDetailed, _, err := client.Teams.GetTeamBySlug(ctx, org, team)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
 	perm := &github.TeamAddTeamRepoOptions{
 		Permission: permission,
 	}
 
-	resp, err := client.Teams.AddTeamRepo(ctx, *teamDetailed.ID, org, repo, perm)
+	resp, err := client.Teams.AddTeamRepoBySlug(ctx, org, team, org, repo, perm)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

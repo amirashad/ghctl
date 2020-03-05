@@ -7,7 +7,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/google/go-github/v28/github"
+	"github.com/google/go-github/v29/github"
 	"gopkg.in/yaml.v2"
 )
 
@@ -113,7 +113,7 @@ func addCollaboratorToRepo(org string,
 		Permission: permission,
 	}
 
-	resp, err := client.Repositories.AddCollaborator(ctx, org, repo, user, perm)
+	_, resp, err := client.Repositories.AddCollaborator(ctx, org, repo, user, perm)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -174,7 +174,7 @@ func getRepoProtections(org string, repo string) []YamlBranch {
 	ctx := context.Background()
 	client := createGithubClient(ctx)
 
-	opt := &github.ListOptions{PerPage: 100}
+	opt := &github.BranchListOptions{ListOptions: github.ListOptions{PerPage: 100}}
 	var objsAll []*github.Branch
 	for {
 		branches, resp, err := client.Repositories.ListBranches(ctx, org, repo, opt)
