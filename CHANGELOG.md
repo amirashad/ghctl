@@ -1,5 +1,9 @@
 # Change log
 
+## v0.4.0 (2020-03-05)
+
+ - Update go-github dependency to latest (v29)
+
 ## v0.3.5 (2020-02-11)
 
  - FIX: YAML: Add teams to repo before adding users to repo as mergers
