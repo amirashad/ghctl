@@ -14,7 +14,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "0.4.0"
+	return "0.4.1"
 }
 
 type Get struct {
@@ -88,7 +88,6 @@ type File struct {
 	Repo          string `arg:"-r,required"`
 	Branch        string `arg:"-b,required"`
 	File          string `arg:"-f,required"`
-	GitName       string `arg:"-n,required"`
 	GitEmail      string `arg:"-e,required"`
 	CommitMessage string `arg:"-m,--gitmessage"`
 }
