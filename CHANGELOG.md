@@ -1,5 +1,9 @@
 # Change log
 
+## v0.4.2 (2020-05-04)
+
+ - Add new arg for repositories to delete branch on merge: `deleteBranchOnMerge`
+
 ## v0.4.1 (2020-03-05)
 
  - No need `--gitname` param for `add file` command anymore

@@ -7,7 +7,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/google/go-github/v29/github"
+	"github.com/google/go-github/v31/github"
 	"gopkg.in/yaml.v2"
 )
 
@@ -49,7 +49,7 @@ func createOrUpdateRepo(org string,
 	private, noIssues, noProjects, noWiki, autoinit *bool,
 	gitIgnoreTemplate, licenseTemplate *string,
 	noMergeCommit, noSquashMerge, noRebaseMerge *bool,
-	defaultBranch *string,
+	defaultBranch *string, deleteBranchOnMerge *bool,
 	format string, create bool) {
 	ctx := context.Background()
 	client := createGithubClient(ctx)
@@ -73,6 +73,8 @@ func createOrUpdateRepo(org string,
 		AllowRebaseMerge: not(noRebaseMerge),
 
 		DefaultBranch: defaultBranch,
+
+		DeleteBranchOnMerge: deleteBranchOnMerge,
 	}
 
 	var objs *github.Repository

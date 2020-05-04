@@ -3,7 +3,7 @@ version: 2.1
 executors:
   ghctl:
     docker:
-      - image: amirashad/ghctl:0.4.0
+      - image: amirashad/ghctl:0.4.2
 
 commands:
   validate:

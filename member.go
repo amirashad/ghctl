@@ -7,7 +7,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/google/go-github/v29/github"
+	"github.com/google/go-github/v31/github"
 )
 
 func getMembers(org string, format string) {
