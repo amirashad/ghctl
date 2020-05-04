@@ -5,6 +5,7 @@ github:
     homepage: 
     private: false
     defaultBranch: develop
+    deleteBranchOnMerge: true
     onCreate:
       autoInit: true
       gitignore: Java
@@ -18,8 +19,8 @@ github:
       allowSquashMerge: true
       allowRebaseMerge: true
     teams:
-      # test-team1: push
-      # test-team2: admin
+      test-team1: push
+      test-team2: admin
     branches:
     - name: develop
       minApprove: 2
