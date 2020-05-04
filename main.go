@@ -8,7 +8,6 @@ var args Args
 
 func main() {
 	arg.MustParse(&args)
-	// fmt.Println(args)
 
 	if args.Get != nil && args.Get.Repos != nil {
 		if args.Get.Repos.RepoName != nil {
@@ -30,7 +29,7 @@ func main() {
 			args.Create.Repo.Private, args.Create.Repo.NoIssues, args.Create.Repo.NoProjects, args.Create.Repo.NoWiki, args.Create.Repo.AutoInit,
 			args.Create.Repo.GitignoreTemplate, args.Create.Repo.LicenseTemplate,
 			args.Create.Repo.NoMergeCommit, args.Create.Repo.NoSquashMerge, args.Create.Repo.NoRebaseMerge,
-			args.Create.Repo.DefaultBranch,
+			args.Create.Repo.DefaultBranch, args.Create.Repo.DeleteBranchOnMerge,
 			args.OutputFormat, true)
 	} else if args.Update != nil && args.Update.Repo != nil {
 		createOrUpdateRepo(args.Org,
@@ -38,7 +37,7 @@ func main() {
 			args.Update.Repo.Private, args.Update.Repo.NoIssues, args.Update.Repo.NoProjects, args.Update.Repo.NoWiki, args.Update.Repo.AutoInit,
 			args.Update.Repo.GitignoreTemplate, args.Update.Repo.LicenseTemplate,
 			args.Update.Repo.NoMergeCommit, args.Update.Repo.NoSquashMerge, args.Update.Repo.NoRebaseMerge,
-			args.Update.Repo.DefaultBranch,
+			args.Update.Repo.DefaultBranch, args.Update.Repo.DeleteBranchOnMerge,
 			args.OutputFormat, false)
 	} else if args.Create != nil && args.Create.Branch != nil {
 		createBranch(args.Org,

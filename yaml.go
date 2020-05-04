@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/google/go-github/v29/github"
+	"github.com/google/go-github/v31/github"
 	"gopkg.in/yaml.v2"
 )
 
@@ -27,11 +27,12 @@ type YamlOnCreate struct {
 	License   *string `yaml:"license"`
 }
 type YamlRepository struct {
-	Name          *string `yaml:"name"`
-	Description   *string `yaml:"description"`
-	Homepage      *string `yaml:"homepage"`
-	Private       *bool   `yaml:"private"`
-	DefaultBranch *string `yaml:"defaultBranch"`
+	Name                *string `yaml:"name"`
+	Description         *string `yaml:"description"`
+	Homepage            *string `yaml:"homepage"`
+	Private             *bool   `yaml:"private"`
+	DefaultBranch       *string `yaml:"defaultBranch"`
+	DeleteBranchOnMerge *bool   `yaml:"deleteBranchOnMerge"`
 
 	OnCreate YamlOnCreate        `yaml:"onCreate"`
 	Pages    YamlRepositoryPages `yaml:"pages"`
@@ -76,11 +77,12 @@ type YamlBranch struct {
 
 func repoToYaml(obj *github.Repository) YamlRepository {
 	yamlRepo := YamlRepository{
-		Name:          obj.Name,
-		Description:   obj.Description,
-		Homepage:      obj.Homepage,
-		Private:       obj.Private,
-		DefaultBranch: obj.DefaultBranch,
+		Name:                obj.Name,
+		Description:         obj.Description,
+		Homepage:            obj.Homepage,
+		Private:             obj.Private,
+		DefaultBranch:       obj.DefaultBranch,
+		DeleteBranchOnMerge: obj.DeleteBranchOnMerge,
 
 		OnCreate: YamlOnCreate{
 			AutoInit:  obj.AutoInit,
@@ -124,7 +126,7 @@ func applyYaml(org string, fileName string, format string) {
 		not(repo.Pages.Issues), not(repo.Pages.Projects), not(repo.Pages.Wiki),
 		repo.OnCreate.AutoInit, repo.OnCreate.Gitignore, repo.OnCreate.License,
 		not(repo.Merge.AllowMergeCommit), not(repo.Merge.AllowRebaseMerge), not(repo.Merge.AllowSquashMerge),
-		repo.DefaultBranch,
+		repo.DefaultBranch, repo.DeleteBranchOnMerge,
 		format, true)
 	for teamName, teamPerm := range repo.Teams {
 		addTeamToRepo(org, *repo.Name, teamName, teamPerm)
@@ -158,7 +160,7 @@ func applyYaml(org string, fileName string, format string) {
 		not(repo.Pages.Issues), not(repo.Pages.Projects), not(repo.Pages.Wiki),
 		repo.OnCreate.AutoInit, repo.OnCreate.Gitignore, repo.OnCreate.License,
 		not(repo.Merge.AllowMergeCommit), not(repo.Merge.AllowRebaseMerge), not(repo.Merge.AllowSquashMerge),
-		repo.DefaultBranch,
+		repo.DefaultBranch, repo.DeleteBranchOnMerge,
 		format, false)
 }
 

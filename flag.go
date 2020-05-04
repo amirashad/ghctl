@@ -14,7 +14,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "0.4.1"
+	return "0.4.2"
 }
 
 type Get struct {
@@ -54,7 +54,8 @@ type Repo struct {
 	NoSquashMerge *bool
 	NoRebaseMerge *bool
 
-	DefaultBranch *string
+	DefaultBranch       *string
+	DeleteBranchOnMerge *bool
 }
 type Branch struct {
 	Repo   string `arg:"-r,required"`
