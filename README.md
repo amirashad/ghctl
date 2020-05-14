@@ -38,7 +38,7 @@ $ chmod +x /usr/local/bin/ghctl
 
 For Linux based OS, you can use following oneliner to download latest binary for AMD64 architecture.
 ```console
-$ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_linux_amd64")" -o /usr/local/bin/ghctl && chmod +x /usr/local/bin/ghctl 
+$ sudo curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/latest | grep -o -E "https://.+?_linux_amd64")" -o /usr/local/bin/ghctl && sudo chmod +x /usr/local/bin/ghctl 
 ```
 
 </p></details>
