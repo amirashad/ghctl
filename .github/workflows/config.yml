@@ -1,14 +1,17 @@
 name: Main
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: 
+      - master
+  pull_request
 
 jobs:
-  test:
+  validate:
     strategy:
       matrix:
         go-version: [1.14.x]
         platform: [ubuntu-latest]
-        # platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
     - name: Install Go
@@ -30,6 +33,30 @@ jobs:
     - name: Get version
       run: ./ghctl --version
 
+  # deploy:
+  #   strategy:
+  #     matrix:
+  #       go-version: [1.14.x]
+  #       platform: [ubuntu-latest]
+  #   runs-on: ${{ matrix.platform }}
+  #   steps:
+  #   - name: Install Go
+  #     uses: actions/setup-go@v2
+  #     with:
+  #       go-version: ${{ matrix.go-version }}
+  #   - name: Checkout code
+  #     uses: actions/checkout@v2
+  #   - name: Build
+  #     run: go build
+  #   - name: Test
+  #     run: go test ./... -v
+  #   - name: Lint
+  #     run: |
+  #       go get -u golang.org/x/lint/golint
+  #       golint ./...
+  #   - name: "Vet: report likely mistakes in packages"
+  #     run: go vet ./...
+  #   - name: Get version
   # test-gopath:
   #   env:
   #     GOPATH: ${{ github.workspace }}
