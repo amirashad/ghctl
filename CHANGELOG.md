@@ -1,5 +1,9 @@
 # Change log
 
+## v0.5.0 (2021-03-04)
+
+ - Update go version to 1.16, github-go version to v33, go-git version to v5(.2)
+
 ## v0.4.3 (2020-05-04)
 
  - Add new arg for repositories to delete branch on merge: `deleteBranchOnMerge`

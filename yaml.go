@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/google/go-github/v31/github"
+	"github.com/google/go-github/v33/github"
 	"gopkg.in/yaml.v2"
 )
 
