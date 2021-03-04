@@ -6,7 +6,7 @@ executors:
       - image: circleci/golang
 
 orbs:
-  snyk: snyk/snyk@0.0.8
+  snyk: snyk/snyk@0.0.13
 
 commands:
   build:
