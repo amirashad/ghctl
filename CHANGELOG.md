@@ -1,5 +1,9 @@
 # Change log
 
+## v0.5.1 (2021-04-05)
+
+ - Fix the whitespaces issues when reading yaml list
+
 ## v0.5.0 (2021-03-04)
 
  - Update go version to 1.16, github-go version to v33, go-git version to v5(.2)
