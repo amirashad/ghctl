@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"strings"
 	"io/ioutil"
 	"os"
 
@@ -167,7 +168,7 @@ func applyYaml(org string, fileName string, format string) {
 func makeCommaSeparatedString(arr []string) string {
 	var result string
 	for _, v := range arr {
-		result += v + ","
+		result += strings.TrimSpace(v) + ","
 	}
 	return result
 }
