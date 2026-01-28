@@ -1,5 +1,11 @@
 # Change log
 
+## v0.6.0 (2026-01-28)
+
+  - Support for GitHub Enterprise
+  - Accept GitHub Enterprise flag via `--enterprise` (default: false)
+  - Require Enterprise URL from `ENTERPRISE_URL` environment variable when GitHub Enterprise is enabled
+
 ## v0.5.1 (2021-04-05)
 
  - Fix the whitespaces issues when reading yaml list

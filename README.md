@@ -28,7 +28,7 @@ You can download the binary built for your architecture from [the latest release
 The following is an example of installation on macOS:
 
 ```console
-$ curl https://github.com/amirashad/ghctl/releases/download/v0.5.0/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
+$ curl https://github.com/amirashad/ghctl/releases/download/v0.6.0/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
 $ chmod +x /usr/local/bin/ghctl
 ```
 
@@ -47,7 +47,7 @@ $ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/late
 
 For Windows OS, you can use following PowerShell command to download binary for AMD64 architecture.
 ```
-Invoke-WebRequest https://github.com/amirashad/ghctl/releases/download/v0.5.0/ghctl_windows_amd64.exe -O ghctl.exe
+Invoke-WebRequest https://github.com/amirashad/ghctl/releases/download/v0.6.0/ghctl_windows_amd64.exe -O ghctl.exe
 ```
 
 </p></details>
@@ -92,7 +92,9 @@ Usage: ghctl [OPTIONS] [COMMANDS] [FILE]
 OPTIONS:
       --token                                   GitHub token
       --org                                     GitHub organisation
+      --enterpriseurl                           Github Enterprise URL
       --version                                 Display version and exit
+      --enterprise,                             Is GitHub Enterprise (default: false)
   -o, --outputformat=[normal|json|yaml]         Output format (default: normal)
   -v, --verbose,                                Show debug output (default: false)
   -h, --help,                                   Display this help and exit
@@ -193,6 +195,12 @@ ghctl returns the following exit statuses on exit:
 ## FAQ
 ### Does ghctl create projects?
 - No. ghctl not yet supports project creation.
+
+### How to use `ghctl` with GitHub Enterprise?
+- Set the environment variable ENTERPRISE_URL or pass it directly using the --enterpriseurl flag, along with the --enterprise flag to enable Enterprise mode.
+```console
+$ ghctl create repo --name my-repo --enterprise
+```
 
 ## Debugging
 
