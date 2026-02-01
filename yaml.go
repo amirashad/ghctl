@@ -4,11 +4,10 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
-	"strings"
-	"io/ioutil"
 	"os"
+	"strings"
 
-	"github.com/google/go-github/v33/github"
+	"github.com/google/go-github/v82/github"
 	"gopkg.in/yaml.v2"
 )
 
@@ -107,7 +106,7 @@ func repoToYaml(obj *github.Repository) YamlRepository {
 }
 
 func applyYaml(org string, fileName string, format string) {
-	bytes, err := ioutil.ReadFile(fileName)
+	bytes, err := os.ReadFile(fileName)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -175,8 +174,8 @@ func makeCommaSeparatedString(arr []string) string {
 
 func createFileWithContent(content string) (fileName string, err error) {
 	fileName = os.TempDir() + TempFileName()
-	Info(fileName)
-	return fileName, ioutil.WriteFile(fileName, []byte(content), 0644)
+	Info("%s", fileName)
+	return fileName, os.WriteFile(fileName, []byte(content), 0644)
 }
 
 // TempFileName generates a temporary filename for use in testing or whatever

@@ -3,6 +3,7 @@ package main
 type Args struct {
 	Token        string `arg:"env:GITHUB_TOKEN,required"`
 	Org          string `arg:"env:GITHUB_ORG,required"`
+	Host         string `arg:"env:GITHUB_HOST"`
 	OutputFormat string `arg:"-o" help:"output format: normal, json" default:"normal"`
 	Verbose      bool   `arg:"-v" default:"false"`
 
@@ -14,7 +15,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "0.5.1"
+	return "0.6.0"
 }
 
 type Get struct {

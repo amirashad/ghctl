@@ -3,10 +3,10 @@ version: 2.1
 executors:
   golang:
     docker: 
-      - image: circleci/golang
+      - image: cimg/go:1.25.6
 
 orbs:
-  snyk: snyk/snyk@0.0.13
+  snyk: snyk/snyk@2.3.0
 
 commands:
   build:

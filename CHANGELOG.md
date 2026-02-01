@@ -1,5 +1,10 @@
 # Change log
 
+## v0.6.0 (2026-02-01)
+
+  - Update go version to 1.25.6, github-go version to v82, go-git version to v5.16.4, go-arg version to v1.6.1
+  - Support for GitHub Enterprise Server. Accept GitHub Enterprise Server host via `GITHUB_HOST` environment variable. If empty, will works on GitHub Cloud
+
 ## v0.5.1 (2021-04-05)
 
  - Fix the whitespaces issues when reading yaml list
