@@ -25,7 +25,7 @@ func createBranch(org string, repo string, branch string, format string) {
 	}
 
 	// Clone the given repository to the memory
-	repoURL := fmt.Sprintf("https://github.com/%s/%s.git", org, repo)
+	repoURL := GenerateRepoURL(org, repo)
 	Info("git clone %s", repoURL)
 	r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
 		URL:  repoURL,
@@ -77,7 +77,7 @@ func addFile(org, repo, branch, fileFrom, fileTo, commitMessage, gitEmail, forma
 	defer os.RemoveAll(dir)
 
 	// Clone the given repository to the memory
-	repoURL := fmt.Sprintf("https://github.com/%s/%s.git", org, repo)
+	repoURL := GenerateRepoURL(org, repo)
 	Info("git clone %s", repoURL)
 	r, err := git.PlainClone(dir, false, &git.CloneOptions{
 		URL:           repoURL,
@@ -156,6 +156,14 @@ func copyFile(from, to string) {
 		fmt.Println(err)
 		return
 	}
+}
+
+func GenerateRepoURL(org, repo string) string {
+	if args.Enterprise {
+		return fmt.Sprintf("%s/%s/%s.git", args.EnterpriseUrl, org, repo)
+	}
+
+	return fmt.Sprintf("https://github.com/%s/%s.git", org, repo)
 }
 
 // CheckIfError should be used to naively panics if an error is not nil.
