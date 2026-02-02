@@ -1,5 +1,9 @@
 # Change log
 
+## v0.6.1 (2026-02-02)
+
+  - Migrate to GitHub Actions
+
 ## v0.6.0 (2026-01-28)
 
   - Support for GitHub Enterprise
