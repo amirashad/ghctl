@@ -8,7 +8,6 @@ var args Args
 
 func main() {
 	arg.MustParse(&args)
-	args.Validate()
 
 	if args.Get != nil && args.Get.Repos != nil {
 		if args.Get.Repos.RepoName != nil {

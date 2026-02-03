@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -25,7 +24,7 @@ func createBranch(org string, repo string, branch string, format string) {
 	}
 
 	// Clone the given repository to the memory
-	repoURL := GenerateRepoURL(org, repo)
+	repoURL := fmt.Sprintf("%s/%s/%s.git", getGithubHost(), org, repo)
 	Info("git clone %s", repoURL)
 	r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
 		URL:  repoURL,
@@ -69,7 +68,7 @@ func addFile(org, repo, branch, fileFrom, fileTo, commitMessage, gitEmail, forma
 		Password: args.Token,
 	}
 
-	dir, err := ioutil.TempDir("", repo+"-"+branch)
+	dir, err := os.MkdirTemp("", repo+"-"+branch)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -77,7 +76,7 @@ func addFile(org, repo, branch, fileFrom, fileTo, commitMessage, gitEmail, forma
 	defer os.RemoveAll(dir)
 
 	// Clone the given repository to the memory
-	repoURL := GenerateRepoURL(org, repo)
+	repoURL := fmt.Sprintf("%s/%s/%s.git", getGithubHost(), org, repo)
 	Info("git clone %s", repoURL)
 	r, err := git.PlainClone(dir, false, &git.CloneOptions{
 		URL:           repoURL,
@@ -143,27 +142,19 @@ func ensureDirExists(fileName string) {
 }
 
 func copyFile(from, to string) {
-	input, err := ioutil.ReadFile(from)
+	input, err := os.ReadFile(from)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	ensureDirExists(to)
-	err = ioutil.WriteFile(to, input, 0644)
+	err = os.WriteFile(to, input, 0644)
 	if err != nil {
 		fmt.Println("Error creating", to)
 		fmt.Println(err)
 		return
 	}
-}
-
-func GenerateRepoURL(org, repo string) string {
-	if args.Enterprise {
-		return fmt.Sprintf("%s/%s/%s.git", args.EnterpriseUrl, org, repo)
-	}
-
-	return fmt.Sprintf("https://github.com/%s/%s.git", org, repo)
 }
 
 // CheckIfError should be used to naively panics if an error is not nil.
@@ -174,4 +165,12 @@ func CheckIfError(err error) {
 
 	Error(err)
 	os.Exit(1)
+}
+
+// getGithubHost returns GitHub host URL
+func getGithubHost() string {
+	if args.Host != "" {
+		return args.Host
+	}
+	return "https://github.com"
 }

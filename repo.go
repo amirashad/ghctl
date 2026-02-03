@@ -7,7 +7,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/google/go-github/v33/github"
+	"github.com/google/go-github/v82/github"
 	"gopkg.in/yaml.v2"
 )
 
@@ -217,7 +217,7 @@ func getRepoProtections(org string, repo string) []YamlBranch {
 				IncludeAdmins: protection.EnforceAdmins.Enabled,
 				RequiredStatusChecks: YamlBranchRequiredStatusChecks{
 					RequiredBranchesUpToDate: protection.RequiredStatusChecks.Strict,
-					Contexts:                 protection.RequiredStatusChecks.Contexts,
+					Contexts:                 *protection.RequiredStatusChecks.Contexts,
 				},
 				Push: YamlPush{
 					Users: users,

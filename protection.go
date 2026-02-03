@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/google/go-github/v33/github"
+	"github.com/google/go-github/v82/github"
 )
 
 func createProtection(org, repoName, protectionPattern string, minApprove int, dismissStalePrApprovals, codeOwner bool,
@@ -23,31 +23,36 @@ func createProtection(org, repoName, protectionPattern string, minApprove int, d
 		},
 		RequiredStatusChecks: &github.RequiredStatusChecks{
 			Strict:   requireBranchesUptodate,
-			Contexts: []string{},
+			Contexts: &[]string{},
 		},
 		EnforceAdmins: includeAdmins,
 	}
 
 	dismissUsers := splitArgs(canDismiss)
 	dismissTeams := splitArgs(canDismissTeams)
+	dismissApps := []string{}
 	if len(dismissUsers)+len(dismissTeams) > 0 {
 		preq.RequiredPullRequestReviews.DismissalRestrictionsRequest = &github.DismissalRestrictionsRequest{
 			Users: &dismissUsers,
 			Teams: &dismissTeams,
+			Apps:  &dismissApps,
 		}
 	}
 
 	pushUsers := splitArgs(canPush)
 	pushTeams := splitArgs(canPushTeams)
+	pushApps := []string{}
 	if len(pushUsers)+len(pushTeams) > 0 {
 		preq.Restrictions = &github.BranchRestrictionsRequest{
 			Users: pushUsers,
 			Teams: pushTeams, // TODO: teams not working
+			Apps:  pushApps,  // TODO: teams not working
 		}
 	}
 
 	if len(requiredStatusChecks) > 0 {
-		preq.RequiredStatusChecks.Contexts = splitArgs(requiredStatusChecks)
+		contexts := splitArgs(requiredStatusChecks)
+		preq.RequiredStatusChecks.Contexts = &contexts
 	}
 
 	_, _, err := client.Repositories.UpdateBranchProtection(ctx, org, repoName, protectionPattern, preq)

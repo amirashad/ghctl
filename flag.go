@@ -1,14 +1,11 @@
 package main
 
-import "fmt"
-
 type Args struct {
-	Token         string `arg:"env:GITHUB_TOKEN,required"`
-	Org           string `arg:"env:GITHUB_ORG,required"`
-	EnterpriseUrl string `arg:"env:ENTERPRISE_URL"`
-	Enterprise    bool   `arg:"--enterprise" help:"Is GitHub Enterprise (default: false)" default:"false"`
-	OutputFormat  string `arg:"-o" help:"output format: normal, json" default:"normal"`
-	Verbose       bool   `arg:"-v" default:"false"`
+	Token        string `arg:"env:GITHUB_TOKEN,required"`
+	Org          string `arg:"env:GITHUB_ORG,required"`
+	Host         string `arg:"env:GITHUB_HOST"`
+	OutputFormat string `arg:"-o" help:"output format: normal, json" default:"normal"`
+	Verbose      bool   `arg:"-v" default:"false"`
 
 	Get    *Get    `arg:"subcommand:get"`
 	Create *Create `arg:"subcommand:create"`
@@ -18,13 +15,7 @@ type Args struct {
 }
 
 func (Args) Version() string {
-	return "0.6.3"
-}
-
-func (a *Args) Validate() {
-	if a.Enterprise && a.EnterpriseUrl == "" {
-		CheckIfError(fmt.Errorf("ENTERPRISE_URL is required when --enterprise is set"))
-	}
+	return "0.6.4"
 }
 
 type Get struct {
