@@ -3,9 +3,6 @@ name: CI
 on:
   pull_request:
     branches: [master]
-    
-env: 
-  PROJECT_REPONAME: ghctl
 
 jobs:
   validate:
@@ -19,11 +16,6 @@ jobs:
           go-version: "1.16"
       - name: Build
         run: go build
-      - name: echo
-        run: echo artifacts/$PROJECT_REPONAME_darwin_amd64
-      - name: echo2
-        run: echo "artifacts/${PROJECT_REPONAME}_darwin_amd64"
-      - name: "Vet: report likely mistakes in packages"
         run: go vet ./...
       - name: Unit Test
         run: go test ./... -v
