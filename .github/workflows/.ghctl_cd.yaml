@@ -3,8 +3,6 @@ name: ghctl CD Pipeline
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
 
 env: 
   PROJECT_REPONAME: ghctl
