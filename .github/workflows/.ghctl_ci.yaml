@@ -20,7 +20,9 @@ jobs:
       - name: Build
         run: go build
       - name: echo
-        run: echo artifacts/$PROJECT_REPONAME_darwin_amd64
+        run: echo $PROJECT_REPONAME
+      - name: echo2
+        run: echo "$PROJECT_REPONAME"
       - name: "Vet: report likely mistakes in packages"
         run: go vet ./...
       - name: Unit Test
