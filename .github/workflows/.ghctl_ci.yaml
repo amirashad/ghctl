@@ -1,9 +1,12 @@
-name: ghctl CI Pipeline
+name: CI
 
 on:
   pull_request:
     branches: [master]
     
+env: 
+  PROJECT_REPONAME: ghctl
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -16,15 +19,17 @@ jobs:
           go-version: "1.16"
       - name: Build
         run: go build
+      - name: echo
+        run: echo artifacts/$PROJECT_REPONAME_darwin_amd64
       - name: "Vet: report likely mistakes in packages"
         run: go vet ./...
       - name: Unit Test
         run: go test ./... -v
-      # - name: Run Snyk to check for vulnerabilities
-      #   uses: snyk/actions/golang@master
-      #   with:
-      #     command: monitor
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/golang@master
+        with:
+          command: monitor
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Get version
         run: ./ghctl --version
