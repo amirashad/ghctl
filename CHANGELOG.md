@@ -1,6 +1,6 @@
 # Change log
 
-## v0.6.1 (2026-02-02)
+## v0.6.2 (2026-02-02)
 
   - Migrate to GitHub Actions
 
