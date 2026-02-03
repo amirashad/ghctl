@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.16"
+          go-version: "1.25.6"
       - name: Build for multiple architectures
         run: |
             GOOS=darwin  GOARCH=amd64               go build    -o artifacts/${PROJECT_REPONAME}_darwin_amd64
@@ -26,7 +26,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mikefarah/yq
-          ref: v4.13.3
           path: yq
       - name: Build yq for alpine image
         run: |
@@ -45,6 +44,6 @@ jobs:
         run: ls -lah artifacts/
       - name: Publish Release on GitHub
         run: |
-            go get github.com/tcnksm/ghr@v0.14.0
+            go install github.com/tcnksm/ghr@latest
             VERSION=v$(./artifacts/${PROJECT_REPONAME}_linux_amd64 --version)
             ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${GITHUB_ACTOR} -r ${PROJECT_REPONAME} -c ${{ github.sha }} -n ${VERSION} -delete ${VERSION} ./artifacts/

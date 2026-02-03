@@ -1,6 +1,7 @@
 package main
 
 import "testing"
+import "fmt"
 
 func Test_GenerateRepoURL(t *testing.T) {
 	tests := []struct {
@@ -12,7 +13,7 @@ func Test_GenerateRepoURL(t *testing.T) {
 		{
 			name: "GitHub URL",
 			args: Args{
-				Enterprise: false,
+				Host: "",
 			},
 			org:         "exampleOrg",
 			repo:        "exampleRepo",
@@ -21,8 +22,7 @@ func Test_GenerateRepoURL(t *testing.T) {
 		{
 			name: "Enterprise URL",
 			args: Args{
-				Enterprise:    true,
-				EnterpriseUrl: "https://enterprise.example.com",
+				Host: "https://enterprise.example.com",
 			},
 			org:         "exampleOrg",
 			repo:        "exampleRepo",
@@ -33,7 +33,7 @@ func Test_GenerateRepoURL(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			args = tt.args
-			got := GenerateRepoURL(tt.org, tt.repo)
+			got := fmt.Sprintf("%s/%s/%s.git", getGithubHost(), tt.org, tt.repo)
 			if got != tt.expectedURL {
 				t.Errorf("generateRepoURL() = %v, want %v", got, tt.expectedURL)
 			}

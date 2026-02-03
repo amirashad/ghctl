@@ -2,9 +2,8 @@ package main
 
 import (
 	"context"
-	"fmt"
 
-	"github.com/google/go-github/v33/github"
+	"github.com/google/go-github/v82/github"
 	"golang.org/x/oauth2"
 )
 
@@ -15,11 +14,8 @@ func createGithubClient(ctx context.Context) *github.Client {
 	var client *github.Client
 	var err error
 
-	if args.Enterprise {
-		baseUrl := fmt.Sprintf("%s/api/v3/", args.EnterpriseUrl)
-		uploadUrl := fmt.Sprintf("%s/api/uploads/", args.EnterpriseUrl)
-
-		client, err = github.NewEnterpriseClient(baseUrl, uploadUrl, tc)
+	if args.Host != "" {
+		client, err = github.NewClient(tc).WithEnterpriseURLs(args.Host, args.Host)
 		CheckIfError(err)
 	} else {
 		client = github.NewClient(tc)

@@ -7,7 +7,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/google/go-github/v33/github"
+	"github.com/google/go-github/v82/github"
 )
 
 func getTeams(org string, format string) {

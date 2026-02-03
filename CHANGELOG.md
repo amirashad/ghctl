@@ -1,5 +1,10 @@
 # Change log
 
+## v0.6.4 (2026-02-03)
+
+  - Update go version to 1.25.6, github-go version to v82, go-git version to v5.16.4, go-arg version to v1.6.1
+  - Improvement for Github Enterprise Server. Accept GitHub Enterprise Server host via `GITHUB_HOST` environment variable instead of --enterprise flag. If empty, will works on GitHub Cloud
+
 ## v0.6.3 (2026-02-02)
 
   - Migrate to GitHub Actions
