@@ -1,9 +1,9 @@
-name: ghctl CI Pipeline
+name: CI
 
 on:
   pull_request:
     branches: [master]
-    
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -20,11 +20,11 @@ jobs:
         run: go vet ./...
       - name: Unit Test
         run: go test ./... -v
-      # - name: Run Snyk to check for vulnerabilities
-      #   uses: snyk/actions/golang@master
-      #   with:
-      #     command: monitor
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/golang@master
+        with:
+          command: monitor
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Get version
         run: ./ghctl --version
