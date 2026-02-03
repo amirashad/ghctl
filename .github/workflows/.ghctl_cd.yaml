@@ -1,0 +1,47 @@
+name: ghctl CD Pipeline
+
+on:
+  push:
+    branches: [master]
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.16"
+      - name: Build for multiple architectures
+        run: |
+            GOOS=darwin  GOARCH=amd64               go build    -o artifacts/${{ vars.PROJECT_REPONAME }}_darwin_amd64
+            GOOS=linux   GOARCH=amd64               go build    -o artifacts/${{ vars.PROJECT_REPONAME }}_linux_amd64
+            GOOS=windows GOARCH=amd64               go build    -o artifacts/${{ vars.PROJECT_REPONAME }}_windows_amd64.exe
+            GOOS=linux   GOARCH=amd64 CGO_ENABLED=0 go build -a -o artifacts/${{ vars.PROJECT_REPONAME }}_alpinelinux_amd64
+      - name: Checkout yq repo
+        uses: actions/checkout@v4
+        with:
+          repository: mikefarah/yq
+          ref: v4.13.3
+          path: yq
+      - name: Build yq for alpine image
+        run: |
+            cd yq
+            GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -a
+      - name: Publish to DockerHub
+        run: |
+            cp artifacts/${{ vars.PROJECT_REPONAME }}_alpinelinux_amd64 ./${{ vars.PROJECT_REPONAME }}
+            VERSION=$(./artifacts/${{ vars.PROJECT_REPONAME }}_linux_amd64 --version)
+            echo "${{ secrets.DOCKER_PASS }}" | docker login --username ${{ secrets.DOCKER_USER }} --password-stdin
+            IMAGE_NAME=${{ secrets.DOCKER_USER }}/${{ vars.PROJECT_REPONAME }}
+            docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$VERSION .
+            docker push $IMAGE_NAME:$VERSION
+            docker push $IMAGE_NAME:latest
+      - name: List artifacts
+        run: ls -lah artifacts/
+      - name: Publish Release on GitHub
+        run: |
+            go get github.com/tcnksm/ghr@v0.14.0
+            VERSION=v$(./artifacts/${{ vars.PROJECT_REPONAME }}_linux_amd64 --version)
+            ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{ vars.PROJECT_USERNAME }} -r ${{ vars.PROJECT_REPONAME }} -c ${{ github.sha }} -n ${VERSION} -delete ${VERSION} ./artifacts/

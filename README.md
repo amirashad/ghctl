@@ -28,7 +28,7 @@ You can download the binary built for your architecture from [the latest release
 The following is an example of installation on macOS:
 
 ```console
-$ curl https://github.com/amirashad/ghctl/releases/download/v0.6.0/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
+$ curl https://github.com/amirashad/ghctl/releases/download/v0.6.1/ghctl_darwin_amd64 -L -o /usr/local/bin/ghctl
 $ chmod +x /usr/local/bin/ghctl
 ```
 
@@ -47,7 +47,7 @@ $ curl -L "$(curl -Ls https://api.github.com/repos/amirashad/ghctl/releases/late
 
 For Windows OS, you can use following PowerShell command to download binary for AMD64 architecture.
 ```
-Invoke-WebRequest https://github.com/amirashad/ghctl/releases/download/v0.6.0/ghctl_windows_amd64.exe -O ghctl.exe
+Invoke-WebRequest https://github.com/amirashad/ghctl/releases/download/v0.6.1/ghctl_windows_amd64.exe -O ghctl.exe
 ```
 
 </p></details>
@@ -60,7 +60,7 @@ You can also use [ghctl via Docker](https://hub.docker.com/r/amirashad/ghctl/).
 $ docker run --rm -v $(pwd):/data -t amirashad/ghctl
 ```
 
-You can use this image to automatize repo creation with CI/CD tools like Travis CI, CircleCI. `curl` and `yq` was preinstalled to image. 
+You can use this image to automatize repo creation with CI/CD tools like Travis CI, CircleCI, GitHub Actions. `curl` and `yq` was preinstalled to image. 
 
 ## Features
 

@@ -13,4 +13,4 @@
 artifacts/
 run*.sh
 ghctl
-*.yaml
+files/
