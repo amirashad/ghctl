@@ -4,7 +4,7 @@ go 1.25.6
 
 require (
 	github.com/alexflint/go-arg v1.6.1
-	github.com/go-git/go-git/v5 v5.16.4
+	github.com/go-git/go-git/v5 v5.16.5
 	github.com/google/go-github/v82 v82.0.0
 	golang.org/x/oauth2 v0.34.0
 	gopkg.in/yaml.v2 v2.4.0
